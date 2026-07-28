@@ -244,8 +244,7 @@ window.LABEL_IMAGES = [
   "pg": 7,
   "pt": "센서·주변기기",
   "pgs": [
-   7,
-   8
+   7
   ],
   "mk": 0
  },
@@ -279,8 +278,7 @@ window.LABEL_IMAGES = [
   "pg": 7,
   "pt": "센서·주변기기",
   "pgs": [
-   7,
-   8
+   7
   ],
   "mk": 0
  },
@@ -325,8 +323,7 @@ window.LABEL_IMAGES = [
   "pg": 7,
   "pt": "센서·주변기기",
   "pgs": [
-   7,
-   8
+   7
   ],
   "mk": 2
  },
@@ -342,8 +339,8 @@ window.LABEL_IMAGES = [
   "mk": 4
  },
  {
-  "f": "ctrl_mode_en.webp",
-  "t": "제어방식 표시(Control Mode)",
+  "f": "code_table.webp",
+  "t": "제어부 설정기호표",
   "sec": "control",
   "pg": 8,
   "pt": "제어기능",
@@ -353,8 +350,8 @@ window.LABEL_IMAGES = [
   "mk": 0
  },
  {
-  "f": "led_temp.webp",
-  "t": "고온경보 실행 시",
+  "f": "ctrl_mode_en.webp",
+  "t": "제어방식 표시(Control Mode)",
   "sec": "control",
   "pg": 8,
   "pt": "제어기능",
@@ -377,17 +374,6 @@ window.LABEL_IMAGES = [
   "mk": 0
  },
  {
-  "f": "scr_alarm_off.webp",
-  "t": "고온경보 실행 시",
-  "sec": "control",
-  "pg": 8,
-  "pt": "제어기능",
-  "pgs": [
-   8
-  ],
-  "mk": 0
- },
- {
   "f": "scr_f1a.webp",
   "t": "온도제어 선택",
   "sec": "control",
@@ -402,42 +388,6 @@ window.LABEL_IMAGES = [
  {
   "f": "scr_f1b.webp",
   "t": "시간제어 선택",
-  "sec": "control",
-  "pg": 8,
-  "pt": "제어기능",
-  "pgs": [
-   8,
-   10
-  ],
-  "mk": 0
- },
- {
-  "f": "scr_h3a.webp",
-  "t": "기본작동 선택",
-  "sec": "control",
-  "pg": 8,
-  "pt": "제어기능",
-  "pgs": [
-   8,
-   10
-  ],
-  "mk": 0
- },
- {
-  "f": "scr_h3b.webp",
-  "t": "표준작동 선택",
-  "sec": "control",
-  "pg": 8,
-  "pt": "제어기능",
-  "pgs": [
-   8,
-   10
-  ],
-  "mk": 0
- },
- {
-  "f": "scr_h3c.webp",
-  "t": "고급작동 선택",
   "sec": "control",
   "pg": 8,
   "pt": "제어기능",
@@ -626,6 +576,39 @@ window.LABEL_IMAGES = [
  {
   "f": "scr_h2.webp",
   "t": "H-2 · 온도 폭 2℃",
+  "sec": "setting",
+  "pg": 10,
+  "pt": "데이터 설정",
+  "pgs": [
+   10
+  ],
+  "mk": 0
+ },
+ {
+  "f": "scr_h3a.webp",
+  "t": "H-3 = 1 · 기본",
+  "sec": "setting",
+  "pg": 10,
+  "pt": "데이터 설정",
+  "pgs": [
+   10
+  ],
+  "mk": 0
+ },
+ {
+  "f": "scr_h3b.webp",
+  "t": "H-3 = 2 · 표준",
+  "sec": "setting",
+  "pg": 10,
+  "pt": "데이터 설정",
+  "pgs": [
+   10
+  ],
+  "mk": 0
+ },
+ {
+  "f": "scr_h3c.webp",
+  "t": "H-3 = 3 · 고급",
   "sec": "setting",
   "pg": 10,
   "pt": "데이터 설정",
@@ -961,16 +944,9 @@ window.LABEL_PAGES  = [
   "files": [
    "opswitch_en.webp",
    "ctrl_mode_en.webp",
+   "code_table.webp",
    "scr_f1a.webp",
-   "scr_f1b.webp",
-   "scr_h3a.webp",
-   "scr_h3b.webp",
-   "scr_h3c.webp",
-   "thermostat_v.webp",
-   "scr_alarm_off.webp",
-   "led_temp.webp",
-   "scr_raindetect_off.webp",
-   "led_rain.webp"
+   "scr_f1b.webp"
   ]
  },
  {

@@ -1082,6 +1082,7 @@
     </ol>
     <div class="alert danger"><span class="ic">🚫</span><div>본 컨트롤러에 <b>다른 종류의 레인센서를 연결하지 마십시오.</b> 맞지 않는 레인센서를 연결하면 빗물감지가 되지 않을 뿐만 아니라 제어부가 고장 날 수 있습니다.</div></div>
     <div class="alert caution"><span class="ic">🌩️</span><div>낙뢰(벼락)에 의하여 손상이 우려될 때는 <b>컨트롤러와 레인센서를 분리</b>하여 주십시오.</div></div>
+    <div class="alert must"><span class="ic">⚙️</span><div>레인센서를 연결했더라도 <b>제어부에서 빗물감지를 "적용"으로 설정해야</b> 작동합니다. <b>「Ⅹ. 데이터 설정」의 F-3</b>을 <b>코드 1(적용)</b>에 맞추십시오.<br>레인센서를 연결하지 않았거나 당분간 사용하지 않을 때에는 <b>코드 2(해제)</b>로 두십시오. 해제하지 않으면 <b>빗물이 없는데도 닫힘 작동</b>이 될 수 있습니다.</div></div>
 
     <div class="subh">4. 증설신호 활용</div>
     <p class="lead">단자대에는 <b>증설용 신호 단자</b>가 있습니다. 증설 신호에 의해 작동되는 전동개폐기용 컨트롤러를 이 단자에 연결하여 본 컨트롤러와 <b>연동해서 운전</b>하게 할 수 있습니다.</p>
@@ -1111,6 +1112,19 @@
     </figure>
 
     <p class="lead">본 컨트롤러는 자연환기 창을 개폐하여 그린하우스 내부의 온도를 관리하는 장치로, 재배작물의 특성에 맞게 사용할 수 있도록 <b>목표온도를 설정하여 제어하는 온도제어</b>와 <b>시간을 정해 환기창을 열거나 닫는 시간제어</b> 방식이 채택되어 있습니다. 이 2가지 중에서 한가지를 선택하여 운전할 수 있습니다.</p>
+    <div class="subh2">📋 설정기호(F · H · C)란?</div>
+    <p>제어부 오른쪽에는 <b>설정기호표</b>가 붙어 있습니다. 설정할 수 있는 항목마다 <b>F-1 · H-2 · C-3</b> 같은 기호가 정해져 있고, 그 기호가 <b>무엇을 정하는 항목인지</b>와 <b>설정할 수 있는 범위</b>를 이 표에서 확인합니다.</p>
+    <figure class="figbox">
+      <img class="photo" src="img/code_table.webp" alt="제어부 설정기호표" loading="lazy">
+      <figcaption>제어부 설정기호표 — 위 <b>❶ F</b> 기본 설정 6가지 / 아래 <b>❷ H&amp;C</b> 제어 설정 11가지</figcaption>
+    </figure>
+    <ul class="bullet">
+      <li><b>❶ F</b> 버튼으로 부르는 <b>F-1 ~ F-6</b> — 제어방식·고온경보·빗물감지·현재시각 등 <b>기본 설정</b>입니다.</li>
+      <li><b>❷ H&amp;C</b> 버튼으로 부르는 <b>H-1 ~ H-5 / C-1 ~ C-6</b> — 온도제어(H)와 시간제어(C)의 <b>세부 설정</b>입니다.</li>
+      <li>기호 옆 괄호 안 숫자가 <b>설정 범위</b>입니다. 예를 들어 <b>H-1 Target Temp(Range : 5~45℃)</b>는 목표온도를 <b>5~45℃</b> 사이에서만 정할 수 있다는 뜻입니다.</li>
+    </ul>
+    <p class="note">각 항목을 실제로 설정하는 방법은 <b>「Ⅹ. 데이터 설정」</b>에서 다룹니다. 아래 표의 <b>F-1</b>이 그 첫 번째 항목입니다.</p>
+
     <div class="scrollx"><table class="kvtbl">
       <tr><th>설정기호</th><th>코드</th><th>제어방식</th><th class="l">내용</th></tr>
       <tr><td rowspan="2"><b>F-1</b></td><td><b>1</b></td><td><b>온도제어</b></td><td class="l">제어부에 <b>목표온도</b>를 설정하여 제어되게 하는 방법</td></tr>
@@ -1134,25 +1148,6 @@
       <div class="tipbox">[예] 목표온도 <b>25℃</b>, 온도 폭 <b>4℃</b>로 설정하면 → 실내온도가 <b>27℃</b>가 되면 열림 작동, <b>23℃</b>가 되면 닫힘 작동이 시작됩니다. 그 사이(23~27℃)에서는 작동하지 않습니다.</div>
     </div>
 
-    <div class="card">
-      <div class="subh2" style="margin-top:0">🎬 작동방식 비교 시뮬레이터</div>
-      <p class="note" style="margin-top:0">방식을 고르고 <b>온도차</b>를 조절해 보세요. 아래에 실제 개폐 패턴이 그려집니다.</p>
-      <div class="seg" id="modeSeg" data-notrans>
-        <button data-k="basic" class="active">코드1 기본작동</button>
-        <button data-k="std">코드2 표준작동</button>
-        <button data-k="adv">코드3 고급작동</button>
-      </div>
-      <div class="ctrls">
-        <label>실내온도가 열림 개시온도보다 <b id="diffV">1.0</b> ℃ 높음</label>
-        <input type="range" id="diffR" min="0" max="5" step="0.5" value="1">
-        <label>작동시간 H-4 = <b id="runV">10</b> 초 · 대기시간 H-5 = <b id="waitV">20</b> 초</label>
-        <input type="range" id="runR" min="5" max="60" step="5" value="10">
-        <input type="range" id="waitR" min="10" max="99" step="5" value="20">
-      </div>
-      <div class="timeline" id="tline" data-notrans></div>
-      <div class="tlleg" data-notrans><span class="r">작동(열림)</span><span class="w">대기(정지)</span></div>
-      <div class="winbar"><i id="winFill"></i></div>
-      <div class="narr" id="modeNarr"></div>
     </div>
 
     <div class="subh2">1) 기본작동 (H-3 코드 1)</div>
@@ -1281,6 +1276,26 @@
         <li data-p="4">잠자기 기능 <span class="tag">대기</span></li>
       </ol>
     </div>
+
+    <div class="card">
+      <div class="subh2" style="margin-top:0">🎬 작동방식 비교 시뮬레이터</div>
+      <p class="note" style="margin-top:0">방식을 고르고 <b>온도차</b>를 조절해 보세요. 아래에 실제 개폐 패턴이 그려집니다.</p>
+      <div class="seg" id="modeSeg" data-notrans>
+        <button data-k="basic" class="active">코드1 기본작동</button>
+        <button data-k="std">코드2 표준작동</button>
+        <button data-k="adv">코드3 고급작동</button>
+      </div>
+      <div class="ctrls">
+        <label>실내온도가 열림 개시온도보다 <b id="diffV">1.0</b> ℃ 높음</label>
+        <input type="range" id="diffR" min="0" max="5" step="0.5" value="1">
+        <label>작동시간 H-4 = <b id="runV">10</b> 초 · 대기시간 H-5 = <b id="waitV">20</b> 초</label>
+        <input type="range" id="runR" min="5" max="60" step="5" value="10">
+        <input type="range" id="waitR" min="10" max="99" step="5" value="20">
+      </div>
+      <div class="timeline" id="tline" data-notrans></div>
+      <div class="tlleg" data-notrans><span class="r">작동(열림)</span><span class="w">대기(정지)</span></div>
+      <div class="winbar"><i id="winFill"></i></div>
+      <div class="narr" id="modeNarr"></div>
 
   </section>
 
