@@ -372,15 +372,9 @@
   html[data-theme="dark"] #gate .gtitle{color:#eee}
   html[data-theme="dark"] #notice .ntext{color:#ddd}
   html[data-theme="dark"] #gate input{background:#0f0f11;color:#eee;border-color:#2c2c2e}
-
-  /* ===== 미확정 제원 표시 (자료 입수 후 교체) ===== */
-  .tbd{display:inline-block;background:#fdecec;border:1.5px dashed var(--red);color:var(--red);
-    border-radius:6px;padding:1px 9px;font-weight:800;font-size:.92em;letter-spacing:.3px}
-  .tbd::before{content:"확인필요 "}
   .draftbar{position:sticky;top:0;z-index:35;background:#b45309;color:#fff;text-align:center;
     padding:9px 14px;font-size:13.5px;font-weight:700;line-height:1.5}
   .draftbar b{color:#ffe9c7}
-  html[data-theme="dark"] .tbd{background:#2a1416}
 </style>
 <script>
 (function(){try{var t=localStorage.getItem('wsm-theme');if(t!=='light'&&t!=='dark')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
@@ -439,7 +433,7 @@
 })();
 </script>
 <aside id="sidebar" class="sidebar"></aside>
-<div class="draftbar" data-notrans>초안 — <b>확인필요</b> 표시된 제원은 아직 확정되지 않았습니다. 인쇄·배포하지 마십시오.</div>
+<div class="draftbar" data-notrans>검토용 초안 — 영문 번역이 진행 중입니다. 인쇄·배포하지 마십시오.</div>
 <div class="wrap">
 
   <div class="appbar">
@@ -559,8 +553,6 @@
     <h2><span class="bar"></span>Ⅱ. 제품 사양 · 모델</h2>
     <p class="lead">본 제품은 시설원예의 환기창(천장 또는 측면)을 개폐하는 <b>DC24V 전동개폐기용 컨트롤러</b>입니다. 모델은 5종류이며, 각 모델은 개별라인 스위치와 출력단자의 수량·위치·크기·무게·퓨즈 규격이 다르지만 <b>기본 기능과 사용방법은 같습니다.</b></p>
 
-    <div class="alert caution"><span class="ic">📋</span><div><b>제원이 아직 확정되지 않았습니다.</b> 아래 빨간 <b>확인필요</b> 배지가 붙은 값은 제품 도면에서 확인한 실제 수치로 바꾼 뒤에 발행해야 합니다. <b>특히 퓨즈 용량은 추측해서 넣으면 안 됩니다.</b></div></div>
-
     <div class="subh">기본 사양</div>
     <table class="spec">
       <tr><th>모델</th><td><b>TTC-1006</b> (수출용)</td></tr>
@@ -578,8 +570,6 @@
       <tr><th>내부 냉각</th><td>내부 온도 약 <b>40℃</b> 이상이 되면 공기 배출구 안쪽 팬(Fan) 작동</td></tr>
       <tr><th>설치 환경</th><td>옥내용. 직사광선·진동이 없고 통풍이 잘 되며 물이 스며들지 않는 곳</td></tr>
     </table>
-
-    <div class="tipbox">TTC-50 시리즈의 <b>50W</b>가 이 모델에서 <b>100W</b>로 바뀌었습니다. 라인당 허용 전류가 달라지므로 <b>개별라인 퓨즈 용량과 개폐기 소비전류 상한은 TTC-50 값을 그대로 쓸 수 없습니다.</b></div>
     <div class="subh">본체</div>
     <figure class="figbox compact">
       <img class="photo" src="img/v_front.webp" alt="TTC-1006 본체 정면">
