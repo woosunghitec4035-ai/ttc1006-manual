@@ -55,8 +55,7 @@ window.LABEL_IMAGES = [
   "pg": 2,
   "pt": "제품 사양·모델",
   "pgs": [
-   2,
-   7
+   2
   ],
   "mk": 0
  },
@@ -1057,7 +1056,6 @@ window.LABEL_PAGES  = [
    "led_sensor.webp",
    "scr_raindetect_off.webp",
    "led_rain.webp",
-   "v_rainsensor.webp",
    "rain_detail_ko.webp"
   ]
  },
