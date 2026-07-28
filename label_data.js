@@ -263,6 +263,17 @@ window.LABEL_IMAGES = [
   "mk": 0
  },
  {
+  "f": "rain_detail_ko.webp",
+  "t": "레인센서 구성 및 명칭",
+  "sec": "sensor",
+  "pg": 7,
+  "pt": "센서·주변기기",
+  "pgs": [
+   7
+  ],
+  "mk": 0
+ },
+ {
   "f": "scr_raindetect_off.webp",
   "t": "빗물 감지 시",
   "sec": "sensor",
@@ -1046,7 +1057,8 @@ window.LABEL_PAGES  = [
    "led_sensor.webp",
    "scr_raindetect_off.webp",
    "led_rain.webp",
-   "v_rainsensor.webp"
+   "v_rainsensor.webp",
+   "rain_detail_ko.webp"
   ]
  },
  {
