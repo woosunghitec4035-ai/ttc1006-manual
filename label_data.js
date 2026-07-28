@@ -1031,11 +1031,5 @@ window.LABEL_PAGES  = [
   "files": [
    "battery_ko.webp"
   ]
- },
- {
-  "n": 13,
-  "t": "A/S·연락처",
-  "id": "contact",
-  "files": []
  }
 ];

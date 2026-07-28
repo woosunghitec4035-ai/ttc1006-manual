@@ -132,8 +132,12 @@
   @keyframes ledblink{0%,32%{opacity:1}52%,82%{opacity:0}100%{opacity:1}}
   @media (prefers-reduced-motion:reduce){.blinkfig .led{animation:none;opacity:1}}
 
-  .partfig{position:relative;display:block;line-height:0}
-  .partfig img{width:100%;display:block}
+  /* 마커 래퍼는 이미지에 딱 붙어야 %좌표가 맞는다. 예전엔 img를 width:100%로
+     늘려서 맞췄는데, 그게 카드 크기 통일 규칙(max-height:380px)을 덮어써
+     마커 붙은 이미지만 혼자 커지거나 눌려 보였다. 이제 래퍼가 이미지를 감싼다 */
+    .partfig{position:relative;display:block;line-height:0;width:fit-content;max-width:100%;margin:0 auto}
+  .partfig img{width:auto;max-width:100%;max-height:380px;display:block;margin:0 auto}
+    .figbox.wide .partfig img{max-height:none;width:100%}
   .partfig .mk{position:absolute;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;
     background:var(--red);color:#fff;font-size:11px;font-weight:800;line-height:1;
     display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 1px 3px rgba(0,0,0,.5)}
@@ -164,10 +168,10 @@
   .gallery figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
   .gallery img{width:100%;display:block;background:#fff}
   .gallery figcaption{font-size:13px;color:var(--sub);padding:8px 12px;border-top:1px solid var(--line)}
-  .contact{font-size:15px}
-  .contact .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
-  .contact .row:last-child{border-bottom:0}
-  .contact .k{color:var(--sub);font-weight:700}
+  
+  
+  
+  
   footer{text-align:center;padding:24px 18px 40px;color:var(--sub);font-size:13px}
   footer .logo{font-weight:800;color:var(--red);font-size:16px}
   .note{color:var(--sub);font-size:13.5px;margin-top:12px}
@@ -648,15 +652,10 @@
           </div>
           <figcaption>② 단자대 안전커버 <b>열림</b></figcaption>
         </figure>
-        <div class="imgleg-t">② 단자대 안전커버 열림 각부 명칭</div>
-        <ul class="imgleg">
-      <li>센서 · TNR · 증설 단자대</li>
-      <li>서모스타트 · 알람 · LINE-1~6 출력단자</li>
-    </ul>
         <div class="imgleg-t">커버를 열어야 보이는 부위</div>
-        <ul class="imgleg" style="counter-reset:leg 11">
+        <ul class="imgleg">
           <li>센서 · TNR · 증설 단자대</li>
-          <li>LINE-1~6 출력단자</li>
+          <li>서모스타트 · 알람 · LINE-1~6 출력단자</li>
         </ul>
         <p class="subnote">그 밖의 부위(제어부 · 전원 · 응급운전 스위치)는 커버를 닫아도 그대로 보이므로 ①의 번호를 따릅니다.</p>
       </div>
@@ -1483,7 +1482,7 @@
         <input type="range" id="bandR" min="2" max="10" step="1" value="3">
       </div>
       <div class="tempcalc">
-        <svg id="tcSvg" viewBox="0 0 340 190" role="img" aria-label="온도 폭 도해"></svg>
+        <svg id="tcSvg" viewBox="0 0 380 190" role="img" aria-label="온도 폭 도해"></svg>
       </div>
       <div class="tcvals" data-notrans>
         <div class="open"><div class="k">열림 개시온도</div><div class="v" id="openV">27.5℃</div></div>
@@ -1794,51 +1793,6 @@
     </div>
   </section>
 
-  <!-- ===== 14. A/S ===== -->
-  <section id="contact">
-    <h2><span class="bar"></span>ⅩⅢ. A/S · 연락처</h2>
-    <div class="card contact">
-      <div class="row"><span class="k">제조사</span><span><b>(주)우성하이텍</b></span></div>
-      <div class="row"><span class="k">주소</span><span>경상남도 양산시 동면 양산대로 446</span></div>
-      <div class="row"><span class="k">전화</span><span><a href="tel:055-365-8801"><b>055-365-8801</b></a></span></div>
-      <div class="row"><span class="k">팩스</span><span>055-365-8333</span></div>
-      <div class="row"><span class="k">웹사이트</span><span><a href="https://www.wsh.co.kr" target="_blank" rel="noopener">www.wsh.co.kr</a></span></div>
-      <div class="row"><span class="k">이메일</span><span>wsh@wsh.co.kr</span></div>
-    </div>
-    <a class="btn tel" href="tel:055-365-8801">📞 전화 문의하기</a>
-
-    <div class="subh">품질 보증</div>
-    <table class="spec">
-      <tr><th>품질 보증기간</th><td><span class="tbd">수출 조건 확인</span></td></tr>
-      <tr><th>부품 보유기간</th><td><span class="tbd">수출 조건 확인</span></td></tr>
-      <tr><th>보상 규정</th><td><span class="tbd">수출지 규정 확인</span> — 국내 소비자 피해보상기준과 다를 수 있습니다.</td></tr>
-    </table>
-    <details class="acc">
-      <summary>⚠️ 무상서비스 기간이라도 유상처리되는 경우</summary>
-      <div class="accbody"><ul class="bullet">
-        <li>전기용량을 틀리게 하여 고장이 발생한 경우</li>
-        <li>제품 내에 <b>이물질(물, 농약, 동식물, 곤충 등)</b>이 들어가서 고장이 발생하였을 경우</li>
-        <li><b>정격 퓨즈</b>를 사용하지 않아 고장이 발생하였을 경우</li>
-        <li>제품을 떨어뜨리거나 충격 때문에 제품파손 및 기능상의 고장이 발생하였을 경우</li>
-        <li>소비자가 제품을 <b>임의로 분해</b>하여 부속품이 분실이나 파손되었을 경우</li>
-        <li><b>천재지변</b>(낙뢰, 화재, 풍수해, 염해(바닷바람 피해), 지진 등)에 의해 고장이 발생하였을 경우</li>
-        <li>기타 소비자의 과실로 인하여 고장이 발생하였을 경우</li>
-        <li>사용설명서나 제품을 분해하지 않고 <b>간단한 조정 시</b>에는 2회부터 요금을 받습니다</li>
-        <li>사용 중 제품의 <b>위치 이동</b> 등으로 말미암은 설치 부실 건</li>
-        <li>소비자 <b>설치 잘못</b>으로 재설치할 경우</li>
-        <li>제품 내부에 먼지 및 이물질 제거를 위해 서비스 요청할 때</li>
-        <li><b>소모성 부품</b>의 수명이 다한 경우(마그네틱 스위치, 온도센서, 레인센서, TNR박스 등)</li>
-      </ul></div>
-    </details>
-    <p class="note">본 사용설명서와 제품은 인쇄상의 잘못이나 기술적인 잘못이 있을 수 있으며 사전통보 없이 이러한 내용이 변경될 수 있습니다. 내용에 의문이 있을 때에는 구입한 곳이나 당사에 문의하여 주십시오.<br>※ 설명서의 그림은 설명을 위해 그려진 것으로 실제 모양과 부분적으로 다를 수 있습니다.</p>
-
-    <footer>
-      <div class="logo">WSH (주)우성하이텍</div>
-      <div>◤ 롤업마스터™ TTC-1006 컨트롤러 (수출용)</div>
-      <div style="margin-top:8px;font-size:12px">P/NO. <span class="tbd">확인</span></div>
-    </footer>
-  </section>
-
 <script>
 /* ===== 페이지 라우터 ===== */
 (function(){
@@ -1854,8 +1808,7 @@
     {id:'panel',t:'제어부'},
     {id:'setting',t:'데이터 설정'},
     {id:'operate',t:'운전 방법'},
-    {id:'trouble',t:'문제해결'},
-    {id:'contact',t:'A/S·연락처'}
+    {id:'trouble',t:'문제해결'}
   ];
   var home=document.getElementById('home'), toc=document.getElementById('toc');
   var homeBtn=document.getElementById('homeBtn'), abTitle=document.getElementById('abTitle'), abPage=document.getElementById('abPage');
@@ -1980,7 +1933,10 @@
     openV.textContent=f(op)+'℃'; midV.textContent=t+'℃'; closeV.textContent=f(cl)+'℃';
     var dark=document.documentElement.getAttribute('data-theme')==='dark';
     var ink=dark?'#eaeaea':'#1a1a1a', sub=dark?'#a8a8a8':'#666';
-    var yO=40, yM=95, yC=150, x0=120, x1=250;
+    /* 오른쪽 라벨("열림작동 개시온도" 등)이 viewBox 밖으로 나가 잘리면서
+       그림이 왼쪽으로 몰려 보였다. 좌우 여백이 같아지도록 축을 옮긴다.
+       왼쪽 숫자 ≈47px(x0-8에서 왼쪽), 오른쪽 글자 ≈117px(x1+8에서 오른쪽) */
+    var yO=40, yM=95, yC=150, x0=90, x1=220;
     svg.innerHTML=
       '<line x1="'+x0+'" y1="'+yO+'" x2="'+x1+'" y2="'+yO+'" stroke="#c8102e" stroke-width="3"/>'+
       '<line x1="'+x0+'" y1="'+yM+'" x2="'+x1+'" y2="'+yM+'" stroke="'+ink+'" stroke-width="3"/>'+
