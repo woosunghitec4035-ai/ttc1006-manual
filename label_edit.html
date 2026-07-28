@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>라벨 편집기 · TTC-1006 매뉴얼</title>
+<style>
+  :root{--red:#c8102e;--bg:#f4f5f7;--card:#fff;--line:#e3e6ea;--sub:#5b6570;--ink:#1c2530;--ok:#0a7d2c}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Malgun Gothic","맑은 고딕",-apple-system,sans-serif;background:var(--bg);color:var(--ink)}
+  header{position:sticky;top:0;z-index:80;background:#1c2530;color:#fff;padding:11px 16px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  header h1{margin:0;font-size:16px}
+  header p{margin:5px 0 0;font-size:12.5px;color:#b9c2cc;line-height:1.6}
+  header b{color:#ffd9df}
+  .wrap{max-width:1000px;margin:0 auto;padding:14px}
+
+  .toolbar{position:sticky;top:74px;z-index:70;background:var(--card);border:1px solid var(--line);border-radius:12px;
+           padding:10px 12px;margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+           box-shadow:0 2px 6px rgba(0,0,0,.06)}
+  .toolbar .jump{font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;min-width:200px}
+  button{border:0;border-radius:9px;padding:9px 13px;font-size:13px;font-weight:800;cursor:pointer}
+  .b-dark{background:#1c2530;color:#fff}
+  .b-ghost{background:#e9edf1;color:#333}
+  .b-add{background:var(--red);color:#fff}
+  .b-add.on{background:var(--ok)}
+  .ok{color:var(--ok);font-weight:800;font-size:13px;display:none}
+  .ok.show{display:inline}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:18px;overflow:hidden;
+        box-shadow:0 1px 4px rgba(0,0,0,.05)}
+  .card > h2{margin:0;padding:11px 14px;font-size:14.5px;border-bottom:1px solid var(--line);background:#fafbfc;
+             display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  .card > h2 .fn{font-size:11.5px;color:var(--sub);font-weight:600;font-family:monospace}
+  .card > h2 .sp{flex:1}
+  .card > h2 .badge{background:var(--red);color:#fff;border-radius:999px;padding:2px 9px;font-size:11.5px}
+  .card > h2 .badge.zero{background:#c3c9d0}
+
+  .stage{position:relative;line-height:0;touch-action:none;-webkit-user-select:none;user-select:none;
+         background-image:linear-gradient(45deg,#f0f0f2 25%,transparent 25%,transparent 75%,#f0f0f2 75%),
+                          linear-gradient(45deg,#f0f0f2 25%,transparent 25%,transparent 75%,#f0f0f2 75%);
+         background-size:18px 18px;background-position:0 0,9px 9px}
+  .stage img{width:100%;display:block;pointer-events:none}
+  .stage.adding{cursor:crosshair;outline:3px dashed var(--ok);outline-offset:-3px}
+  .mk{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;
+      background:var(--red);color:#fff;font-size:13px;font-weight:800;line-height:26px;text-align:center;
+      box-shadow:0 0 0 2px #fff,0 1px 4px rgba(0,0,0,.5);cursor:grab;touch-action:none}
+  .mk.sel{background:var(--ok);box-shadow:0 0 0 3px #fff,0 3px 10px rgba(0,0,0,.5);z-index:20}
+
+  .rows{padding:4px 0}
+  .row{display:flex;gap:7px;align-items:center;padding:7px 12px;border-bottom:1px solid #f2f4f6}
+  .row:last-child{border-bottom:0}
+  .row.sel{background:#fff5f6}
+  .num{flex:0 0 auto;width:25px;height:25px;border-radius:50%;background:var(--red);color:#fff;
+       font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .row input{flex:1;min-width:0;font-size:14px;padding:8px 9px;border:1px solid var(--line);border-radius:8px}
+  .row .xy{font-size:11px;color:var(--sub);flex:0 0 auto;width:84px;text-align:right;font-family:monospace}
+  .row button{padding:6px 9px;font-size:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+    .chips .chip{font-size:12px;font-weight:700;text-decoration:none;color:var(--ink);
+      background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+    .chips .chip.away{color:var(--sub);border-style:dashed}
+    .pagesep{margin:26px 0 10px;padding:9px 14px;background:var(--red);color:#fff;
+      border-radius:10px;font-weight:800;font-size:14px;position:sticky;top:0;z-index:5}
+    .card h2 .pg{background:var(--red);color:#fff;border-radius:6px;padding:2px 7px;
+      font-size:11px;font-weight:800;flex:0 0 auto}
+    .missing{position:absolute;left:0;right:0;top:0;padding:14px;background:#fdf4f4;color:#8a1220;
+      border:1px solid #f2cccc;border-radius:10px;font-size:13px;font-weight:700}
+    .empty{padding:16px;text-align:center;color:var(--sub);font-size:13px}
+
+  details.code{border-top:1px solid var(--line)}
+  details.code summary{padding:9px 14px;font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;list-style:none}
+  details.code summary::before{content:"▸ ";color:var(--red)}
+  details.code[open] summary::before{content:"▾ "}
+  details.code .body{padding:0 12px 12px}
+  textarea{width:100%;height:150px;font-family:Consolas,monospace;font-size:11px;border:1px solid var(--line);
+           border-radius:9px;padding:9px;white-space:pre;overflow:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>라벨 편집기 — TTC-1006 매뉴얼</h1>
+  <p>매뉴얼에 들어간 이미지 <b id="totImg">0</b>개가 <b>페이지 순서대로</b> 펼쳐져 있습니다. 이미 마커가 붙어 있는 그림은 그 값이 불러와져 있어 <b>고쳐 쓰면</b> 됩니다.<br>
+     <b>① 그림 위 [라벨 추가] 클릭 → ② 그림에서 원하는 지점 클릭 → ③ 이름 입력 → ④ 번호를 끌어서 조정</b><br>
+     다 하시면 맨 위 <b>[전체 HTML 복사]</b> 를 눌러 채팅에 붙여넣어 주세요. 작업은 자동 저장됩니다.</p>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <select class="jump" id="jump"><option value="">↓ 이미지로 이동…</option></select>
+    <button class="b-dark" id="copyAll" type="button">전체 HTML 복사</button>
+    <button class="b-ghost" id="jsonBtn" type="button">JSON 내려받기</button>
+    <button class="b-ghost" id="resetAll" type="button">전체 초기화</button>
+    <span class="ok" id="okMsg">복사됨</span>
+  </div>
+  <div id="cards"></div>
+</div>
+
+<script src="label_data.js"></script>
+<script>
+/* ── 편집 대상 이미지 (매뉴얼에서 쓰는 것 전부) ───────────── */
+/* 이미지 목록과 기존 마커는 index.html에서 자동 생성한다 (tools/gen_label_data.js).
+   손으로 관리하면 이미지가 바뀔 때마다 낡아서, 없는 파일을 가리키거나
+   이미 붙어 있는 마커를 못 보고 처음부터 다시 찍게 된다. */
+var IMAGES = window.LABEL_IMAGES || [];
+var PRESET = window.LABEL_PRESET || {};
+if(!IMAGES.length){
+  document.write('<p style="padding:20px;color:#c8102e;font-weight:700">'
+    +'label_data.js 를 불러오지 못했습니다. tools 폴더에서 <code>node gen_label_data.js</code> 를 실행하세요.</p>');
+}
+
+var KEY='ttc1006-labels';
+var data=load(), addMode=null, sel={f:null,i:-1};
+
+function load(){
+  try{var v=JSON.parse(localStorage.getItem(KEY)); if(v&&typeof v==='object') return v;}catch(e){}
+  return JSON.parse(JSON.stringify(PRESET));
+}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){} }
+function L(f){ if(!data[f]) data[f]=[]; return data[f]; }
+function title(f){ for(var i=0;i<IMAGES.length;i++) if(IMAGES[i].f===f) return IMAGES[i].t; return f; }
+
+var cards=document.getElementById('cards'), jump=document.getElementById('jump');
+document.getElementById('totImg').textContent=IMAGES.length;
+
+/* 카드 생성 */
+function buildCard(im,idx){
+  var card=document.createElement('section'); card.className='card'; card.id='card-'+idx;
+  var h=document.createElement('h2');
+  h.innerHTML='<span class="pg">'+(im.pgs||[im.pg]).map(function(n){return n+'p';}).join(' ')+'</span>'
+             +'<span>'+im.t+'</span><span class="fn">'+im.f+'</span><span class="sp"></span>';
+  var badge=document.createElement('span'); badge.className='badge'; h.appendChild(badge);
+  var addB=document.createElement('button'); addB.className='b-add'; addB.textContent='＋ 라벨 추가'; h.appendChild(addB);
+  var clrB=document.createElement('button'); clrB.className='b-ghost'; clrB.textContent='초기화'; h.appendChild(clrB);
+  card.appendChild(h);
+
+  var stage=document.createElement('div'); stage.className='stage';
+  var pic=document.createElement('img'); pic.src='img/'+im.f; pic.alt=im.t; pic.loading='lazy';
+  /* 목록이 낡아 없는 파일을 가리키면 조용히 빈 카드가 된다. 눈에 보이게 알린다 */
+  pic.addEventListener('error',function(){
+    var w=document.createElement('div'); w.className='missing';
+    w.textContent='⚠ img/'+im.f+' 파일이 없습니다 — 편집기 IMAGES 목록을 갱신하세요';
+    stage.appendChild(w); badge.textContent='파일없음'; badge.classList.add('zero');
+  });
+  stage.appendChild(pic); card.appendChild(stage);
+
+  var rows=document.createElement('div'); rows.className='rows'; card.appendChild(rows);
+
+  var det=document.createElement('details'); det.className='code';
+  det.innerHTML='<summary>붙여넣기용 HTML 보기</summary>';
+  var body=document.createElement('div'); body.className='body';
+  var ta=document.createElement('textarea'); ta.readOnly=true; body.appendChild(ta);
+  var cp=document.createElement('button'); cp.className='b-dark'; cp.textContent='이 이미지 HTML 복사';
+  cp.style.marginTop='8px'; body.appendChild(cp);
+  det.appendChild(body); card.appendChild(det);
+  cards.appendChild(card);
+
+  addB.addEventListener('click',function(){
+    addMode = (addMode===im.f) ? null : im.f;
+    refreshAddButtons();
+  });
+  clrB.addEventListener('click',function(){
+    if(!L(im.f).length) return;
+    if(!confirm('「'+im.t+'」의 라벨을 모두 지울까요?')) return;
+    data[im.f]=[]; sel={f:null,i:-1}; save(); draw(im.f);
+  });
+  cp.addEventListener('click',function(){ copy(ta.value); });
+  stage.addEventListener('click',function(e){
+    if(addMode!==im.f) return;
+    if(e.target.classList.contains('mk')) return;
+    var r=stage.getBoundingClientRect();
+    L(im.f).push({n:'',
+      x:Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100)),
+      y:Math.max(0,Math.min(100,(e.clientY-r.top)/r.height*100))});
+    sel={f:im.f,i:L(im.f).length-1}; save(); draw(im.f);
+    var ins=rows.querySelectorAll('input'); if(ins.length) ins[ins.length-1].focus();
+  });
+
+  card._parts={stage:stage,rows:rows,ta:ta,badge:badge,addB:addB,f:im.f};
+}
+
+/* 페이지 목록이 순서를 주도한다. 같은 파일이 여러 장에 쓰여도 마커는 파일 단위라
+   카드는 하나뿐이므로, 카드가 없는 장은 "어디에 있는지" 링크로 알려준다.
+   (이걸 안 하면 운전 방법처럼 재사용 이미지뿐인 장이 통째로 사라진다) */
+var idOf={}, byPage={};
+IMAGES.forEach(function(im,i){ idOf[im.f]='card-'+i; (byPage[im.pg]=byPage[im.pg]||[]).push({im:im,i:i}); });
+var imOf={}; IMAGES.forEach(function(im){ imOf[im.f]=im; });
+
+(window.LABEL_PAGES||[]).forEach(function(p){
+  var sep=document.createElement('div'); sep.className='pagesep';
+  sep.textContent=p.n+'페이지 · '+p.t+'  —  이미지 '+p.files.length+'개';
+  cards.appendChild(sep);
+
+  var grp=document.createElement('optgroup'); grp.label=p.n+'. '+p.t; jump.appendChild(grp);
+  if(p.files.length){
+    var strip=document.createElement('div'); strip.className='chips';
+    p.files.forEach(function(f){
+      var im=imOf[f]; if(!im) return;
+      var away=(im.pg!==p.n);
+      var a=document.createElement('a'); a.className='chip'+(away?' away':'');
+      a.href='#'+idOf[f]; a.textContent=(away?'↗ ':'')+im.t+' ('+f+')';
+      if(away) a.title='이 이미지의 카드는 '+im.pg+'페이지에 있습니다';
+      strip.appendChild(a);
+      var o=document.createElement('option'); o.value=idOf[f];
+      o.textContent='　'+(away?'↗ ':'')+im.t; grp.appendChild(o);
+    });
+    cards.appendChild(strip);
+  } else {
+    var e=document.createElement('div'); e.className='empty'; e.textContent='이 페이지에는 이미지가 없습니다.';
+    cards.appendChild(e);
+  }
+  (byPage[p.n]||[]).forEach(function(x){ buildCard(x.im,x.i); });
+});
+
+function refreshAddButtons(){
+  IMAGES.forEach(function(im,idx){
+    var p=document.getElementById('card-'+idx)._parts;
+    var on = addMode===im.f;
+    p.addB.classList.toggle('on',on);
+    p.addB.textContent = on ? '✓ 추가 모드 (끄려면 클릭)' : '＋ 라벨 추가';
+    p.stage.classList.toggle('adding',on);
+  });
+}
+
+function draw(f){
+  var idx=-1; IMAGES.forEach(function(im,i){ if(im.f===f) idx=i; });
+  if(idx<0) return;
+  var p=document.getElementById('card-'+idx)._parts, arr=L(f);
+  p.stage.querySelectorAll('.mk').forEach(function(e){e.remove()});
+  arr.forEach(function(m,i){
+    var el=document.createElement('div');
+    el.className='mk'+(sel.f===f&&sel.i===i?' sel':'');
+    el.textContent=i+1; el.style.left=m.x+'%'; el.style.top=m.y+'%';
+    bindDrag(el,f,i,p); p.stage.appendChild(el);
+  });
+  p.badge.textContent=arr.length?arr.length+'개':'없음';
+  p.badge.classList.toggle('zero',!arr.length);
+  drawRows(f,p); drawCode(f,p);
+}
+
+function highlight(f,p){
+  var isSel=function(j){ return sel.f===f && sel.i===j; };
+  p.stage.querySelectorAll('.mk').forEach(function(x,j){ x.classList.toggle('sel',isSel(j)); });
+  p.rows.querySelectorAll('.row').forEach(function(x,j){ x.classList.toggle('sel',isSel(j)); });
+}
+
+function drawRows(f,p){
+  var arr=L(f);
+  if(!arr.length){ p.rows.innerHTML='<div class="empty">라벨이 없습니다. 위 [＋ 라벨 추가]를 누른 뒤 그림을 클릭하세요.</div>'; return; }
+  p.rows.innerHTML='';
+  arr.forEach(function(m,i){
+    var r=document.createElement('div'); r.className='row'+(sel.f===f&&sel.i===i?' sel':'');
+    var n=document.createElement('div'); n.className='num'; n.textContent=i+1;
+    var inp=document.createElement('input'); inp.type='text'; inp.value=m.n||''; inp.placeholder='명칭 입력';
+    inp.addEventListener('input',function(){ m.n=inp.value; save(); drawCode(f,p); });
+    /* draw(f)를 부르면 행이 통째로 새로 만들어져 방금 포커스된 이 입력칸이
+       사라진다. 선택 표시만 바꾼다 */
+    inp.addEventListener('focus',function(){ sel={f:f,i:i}; highlight(f,p); });
+    var xy=document.createElement('div'); xy.className='xy'; xy.textContent=m.x.toFixed(1)+', '+m.y.toFixed(1);
+    var up=document.createElement('button'); up.className='b-ghost'; up.textContent='▲';
+    up.onclick=function(){ if(i>0){arr.splice(i-1,0,arr.splice(i,1)[0]); sel={f:f,i:i-1}; save(); draw(f);} };
+    var dn=document.createElement('button'); dn.className='b-ghost'; dn.textContent='▼';
+    dn.onclick=function(){ if(i<arr.length-1){arr.splice(i+1,0,arr.splice(i,1)[0]); sel={f:f,i:i+1}; save(); draw(f);} };
+    var del=document.createElement('button'); del.className='b-ghost'; del.textContent='삭제';
+    del.onclick=function(){ arr.splice(i,1); sel={f:null,i:-1}; save(); draw(f); };
+    [n,inp,xy,up,dn,del].forEach(function(e){r.appendChild(e)});
+    p.rows.appendChild(r);
+  });
+}
+
+var NL='\n';
+function snippet(f){
+  var arr=L(f); if(!arr.length) return '';
+  var t=title(f);
+  var s='<figure class="figbox">\n  <div class="partfig">\n';
+  s+='    <img class="photo" src="img/'+f+'" alt="'+t+'">\n';
+  arr.forEach(function(m,i){
+    s+='    <span class="mk" style="left:'+m.x.toFixed(1)+'%;top:'+m.y.toFixed(1)+'%" data-notrans>'+(i+1)+'</span>\n';
+  });
+  /* 캡션은 그림만 봐서는 알 수 없는 정보를 넣는 자리다.
+     "번호를 대조하십시오" 류는 아래 명칭 목록과 중복이라 넣지 않는다 */
+  s+='  </div>' + NL + '  <figcaption>'+t+'</figcaption>' + NL + '</figure>' + NL;
+  s+='<div class="imgleg-t">'+t+' 각부 명칭</div>\n<ul class="imgleg">\n';
+  arr.forEach(function(m){ s+='  <li>'+(m.n||'(이름 없음)')+'</li>\n'; });
+  s+='</ul>\n';
+  return s;
+}
+function drawCode(f,p){
+  var s=snippet(f);
+  p.ta.value = s || '(라벨이 없습니다)';
+}
+
+function bindDrag(el,f,i,p){
+  var on=false, moved=false;
+  el.addEventListener('pointerdown',function(e){
+    on=true; moved=false; sel={f:f,i:i};
+    p.stage.querySelectorAll('.mk').forEach(function(x,j){x.classList.toggle('sel',j===i)});
+    p.rows.querySelectorAll('.row').forEach(function(x,j){x.classList.toggle('sel',j===i)});
+    el.setPointerCapture(e.pointerId); e.preventDefault(); e.stopPropagation();
+  });
+  el.addEventListener('pointermove',function(e){
+    if(!on) return;
+    var r=p.stage.getBoundingClientRect();
+    var x=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100));
+    var y=Math.max(0,Math.min(100,(e.clientY-r.top)/r.height*100));
+    moved=true;
+    L(f)[i].x=x; L(f)[i].y=y; el.style.left=x+'%'; el.style.top=y+'%';
+    var xy=p.rows.querySelectorAll('.xy')[i]; if(xy) xy.textContent=x.toFixed(1)+', '+y.toFixed(1);
+    e.preventDefault();
+  });
+  function end(){ if(on){ on=false; save(); drawCode(f,p); } }
+  el.addEventListener('pointerup',end); el.addEventListener('pointercancel',end);
+  el.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(moved) return;                       /* 끌었으면 그냥 둔다 */
+    var ip=p.rows.querySelectorAll('input')[i];
+    if(ip){ ip.focus(); ip.select(); }      /* 탭하면 바로 이름을 쓸 수 있게 */
+  });
+}
+
+function copy(text){
+  if(!text){ alert('복사할 라벨이 없습니다.'); return; }
+  function done(){ var o=document.getElementById('okMsg'); o.classList.add('show'); setTimeout(function(){o.classList.remove('show')},1600); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done,function(){ fallback(text); done(); });
+  } else { fallback(text); done(); }
+}
+function fallback(text){
+  var t=document.createElement('textarea'); t.value=text; document.body.appendChild(t);
+  t.select(); try{document.execCommand('copy')}catch(e){} t.remove();
+}
+
+document.getElementById('copyAll').addEventListener('click',function(){
+  var out=[];
+  IMAGES.forEach(function(im){
+    var s=snippet(im.f);
+    if(s) out.push('<!-- ===== '+im.t+' ('+im.f+') ===== -->\n'+s);
+  });
+  copy(out.join('\n'));
+});
+document.getElementById('jsonBtn').addEventListener('click',function(){
+  var b=new Blob([JSON.stringify(data,null,1)],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='labels.json';
+  document.body.appendChild(a); a.click(); a.remove();
+});
+document.getElementById('resetAll').addEventListener('click',function(){
+  if(!confirm('모든 이미지의 라벨을 지우고 처음 상태로 되돌릴까요?')) return;
+  data=JSON.parse(JSON.stringify(PRESET)); sel={f:null,i:-1}; save();
+  IMAGES.forEach(function(im){ draw(im.f); });
+});
+jump.addEventListener('change',function(){
+  var el=document.getElementById(jump.value);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  jump.value='';
+});
+
+IMAGES.forEach(function(im){ draw(im.f); });
+refreshAddButtons();
+</script>
+</body>
+</html>
