@@ -97,6 +97,18 @@
   .figbox{margin:12px 0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
   .figbox img{width:auto;max-width:100%;max-height:380px;display:block;margin:0 auto;background:#fff}
   .figbox.wide img{max-height:none;width:100%}
+  /* 눌러서 확대 — 넓은 도해는 휴대폰 폭에 맞추면 라벨이 4~5px가 되어 못 읽는다 */
+  .figbox img,.gallery img,.sidegrid img,.accgrid img{cursor:zoom-in}
+  .lbox{position:fixed;inset:0;z-index:300;display:none;background:rgba(0,0,0,.93);
+    overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .lbox.show{display:flex;align-items:center;justify-content:center}
+  .lbox img{display:block;max-width:100%;max-height:100vh;width:auto;height:auto;cursor:zoom-in}
+  .lbox.zoom{display:block}
+  .lbox.zoom img{max-width:none;max-height:none;width:auto;cursor:zoom-out}
+  .lbox .x{position:fixed;top:calc(10px + env(safe-area-inset-top));right:12px;width:40px;height:40px;
+    border:0;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;font-size:19px;cursor:pointer}
+  .lbox .hint{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom));
+    text-align:center;color:#fff;opacity:.75;font-size:13px;pointer-events:none}
   .figbox figcaption{font-size:13px;color:var(--sub);padding:8px 12px;border-top:1px solid var(--line)}
   .figrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .figrow .figbox{margin:0}
@@ -2014,7 +2026,8 @@
   document.addEventListener('touchstart',function(e){
     if(e.touches.length!==1){tskip=true;return;}
     var t=e.touches[0];tsx=t.clientX;tsy=t.clientY;tst=Date.now();
-    tskip=!!(e.target&&e.target.closest&&e.target.closest('input,button,select,textarea,a,.gallery,.scrollx,.seg,.card'));
+    tskip=!!document.querySelector('.lbox.show')||
+           !!(e.target&&e.target.closest&&e.target.closest('input,button,select,textarea,a,.gallery,.scrollx,.seg,.card'));
   },{passive:true});
   document.addEventListener('touchend',function(e){
     if(tskip||e.changedTouches.length!==1)return;
@@ -2240,6 +2253,38 @@
 })();
 </script>
 
+<script>
+/* 그림 눌러서 확대 */
+(function(){
+  var HINT={ko:'그림을 누르면 원래 크기 · 배경을 누르면 닫힘',
+            en:'Tap the image for full size · tap outside to close',
+            ja:'画像をタップで原寸 · 外側をタップで閉じる'};
+  var box=document.createElement('div');
+  box.className='lbox'; box.setAttribute('data-notrans','');   /* 번역 대상 아님 */
+  box.innerHTML='<button class="x" type="button" aria-label="close">✕</button>'+
+                '<img alt=""><div class="hint"></div>';
+  document.body.appendChild(box);
+  var big=box.querySelector('img'), hint=box.querySelector('.hint');
+  function open(src,alt){
+    big.src=src; big.alt=alt||'';
+    box.classList.add('show'); box.classList.remove('zoom');
+    hint.textContent=HINT[window.WSM_LANG||'ko']||HINT.ko;
+    document.body.classList.add('locked');
+  }
+  function close(){ box.classList.remove('show','zoom'); document.body.classList.remove('locked'); big.removeAttribute('src'); }
+  document.addEventListener('click',function(e){
+    var t=e.target;
+    if(box.contains(t)){
+      if(t===big){ box.classList.toggle('zoom'); box.scrollTop=0; box.scrollLeft=0; }
+      else close();
+      return;
+    }
+    if(t.tagName==='IMG' && t.closest('.figbox,.partfig,.gallery,.sidegrid,.accgrid,.brkrow'))
+      open(t.currentSrc||t.getAttribute('src'), t.getAttribute('alt'));
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
 <script src="i18n.js"></script>
 <script src="i18n_sent.js"></script>
 <script>
