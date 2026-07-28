@@ -55,14 +55,16 @@
 
   h2{font-size:21px;font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:9px}
   h2 .bar{width:5px;height:21px;background:var(--red);border-radius:3px;display:inline-block}
-  .subh{font-size:16.5px;font-weight:800;margin:22px 0 9px;border-left:3px solid var(--red);padding-left:9px}
+  .subh{font-size:17px;font-weight:800;margin:22px 0 9px;border-left:3px solid var(--red);padding-left:9px}
   .subh2{font-size:15.5px;font-weight:800;margin:16px 0 6px}
-  .lead{margin:-4px 0 14px;color:var(--sub);font-size:14.5px}
+  section p{font-size:15px}   /* 클래스 없는 문단이 body 17px를 상속해
+                                   소제목(15.5)보다 커지던 것을 막는다 */
+    .lead{margin:-4px 0 14px;color:var(--sub);font-size:15px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
   .card.notice{border-left:3px solid var(--sub);background:var(--card)}
   .card.notice p{margin:6px 0;font-size:13px;line-height:1.65;color:var(--fg)}
 
-  table.spec{width:100%;border-collapse:collapse;font-size:15.5px}
+  table.spec{width:100%;border-collapse:collapse;font-size:14px}
   table.spec th,table.spec td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
   table.spec th{width:38%;color:var(--sub);font-weight:700;background:#fafafa}
   table.spec tr:last-child th,table.spec tr:last-child td{border-bottom:0}
@@ -73,13 +75,13 @@
   .scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .scrollx .kvtbl{min-width:420px}
 
-  .alert{border-radius:12px;padding:13px 15px;font-size:14.5px;margin-bottom:11px;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
+  .alert{border-radius:12px;padding:13px 15px;font-size:15px;margin-bottom:11px;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
   .alert .ic{font-size:19px;line-height:1.4;flex:0 0 auto}
   /* 동질 경고 묶음 (박스 벽 방지) */
   .warnlist{border:1px solid #f2cccc;background:#fdf4f4;border-radius:12px;margin-bottom:11px}
-  .warnlist .wh{font-weight:800;font-size:14px;color:#8a1220;padding:9px 14px 3px}
+  .warnlist .wh{font-weight:800;font-size:15.5px;color:#8a1220;padding:9px 14px 3px}
   .warnlist ul{list-style:none;margin:0;padding:4px 14px 8px}
-  .warnlist li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:14px;line-height:1.5;color:#4a2626}
+  .warnlist li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:15px;line-height:1.5;color:#4a2626}
   .warnlist li+li{border-top:1px solid #f6dede}
   .warnlist li .di{font-size:17px;flex:0 0 auto;line-height:1.45}
   .danger{background:#fdecec;border:1px solid #f5c2c2;color:#8a1220}
@@ -89,13 +91,13 @@
   .symbols .s{display:flex;gap:9px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:13px;color:var(--sub)}
   .symbols .s b{color:var(--ink);font-size:14px}
   .symbols .s .em{font-size:20px}
-  .tipbox{background:#eef6ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px 14px;font-size:14px;margin:10px 0;color:#0b4a8a}
+  .tipbox{background:#eef6ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px 14px;font-size:15px;margin:10px 0;color:#0b4a8a}
   .tipbox b{color:#083a6b}
 
   .figbox{margin:12px 0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
   .figbox img{width:auto;max-width:100%;max-height:380px;display:block;margin:0 auto;background:#fff}
   .figbox.wide img{max-height:none;width:100%}
-  .figbox figcaption{font-size:12.5px;color:var(--sub);padding:8px 12px;border-top:1px solid var(--line)}
+  .figbox figcaption{font-size:13px;color:var(--sub);padding:8px 12px;border-top:1px solid var(--line)}
   .figrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .figrow .figbox{margin:0}
   /* 세로형 퓨즈홀더 + 가로형 퓨즈 균형 */
@@ -115,14 +117,14 @@
   .sidegrid .figbox{margin:0;display:flex;flex-direction:column}
   .sidegrid .figbox img{width:100%;height:180px;object-fit:contain;padding:8px 4px}
   @media (min-width:700px){.sidegrid .figbox img{width:100%;height:225px}}
-  .sidegrid figcaption{flex:1;font-size:12px;line-height:1.45;word-break:keep-all}
+  .sidegrid figcaption{flex:1;font-size:13px;line-height:1.45;word-break:keep-all}
 
   /* 정면 비교(닫힘·열림) 2단 — 모바일에서는 1단 */
   .partrow{display:grid;grid-template-columns:1fr;gap:16px;margin-top:2px}
   @media (min-width:700px){.partrow{grid-template-columns:1fr 1fr;gap:20px}}
   .partrow .figbox{margin:0}
   .partrow .imgleg-t{margin-top:10px}
-  .partrow .subnote{margin-top:10px;font-size:12.5px}
+  .partrow .subnote{margin-top:10px;font-size:13px}
   @media (min-width:640px){.partrow .imgleg{grid-template-columns:1fr 1fr}}
 
   /* 표시등 점멸 — 꺼진 이미지 위에 켜진 이미지를 겹쳐 1초 간격으로 */
@@ -139,20 +141,20 @@
   .partfig img{width:auto;max-width:100%;max-height:380px;display:block;margin:0 auto}
     .figbox.wide .partfig img{max-height:none;width:100%}
   .partfig .mk{position:absolute;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;
-    background:var(--red);color:#fff;font-size:11px;font-weight:800;line-height:1;
+    background:var(--red);color:#fff;font-size:12px;font-weight:800;line-height:1;
     display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff,0 1px 3px rgba(0,0,0,.5)}
-  @media (max-width:420px){.partfig .mk{width:17px;height:17px;font-size:9.5px}}
+  @media (max-width:420px){.partfig .mk{width:18px;height:18px;font-size:11px}}
 
   .proc{margin:8px 0;padding:0;list-style:none;counter-reset:p}
-  .proc li{position:relative;padding:9px 0 9px 32px;font-size:14.5px;border-bottom:1px solid var(--line);counter-increment:p;line-height:1.55}
+  .proc li{position:relative;padding:9px 0 9px 32px;font-size:15px;border-bottom:1px solid var(--line);counter-increment:p;line-height:1.55}
   .proc li:last-child{border-bottom:0}
   .proc li::before{content:counter(p);position:absolute;left:0;top:9px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
   .bullet{margin:8px 0;padding-left:20px}
-  .bullet li{margin:6px 0;font-size:14.5px}
+  .bullet li{margin:6px 0;font-size:15px}
   .namelist{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:7px 14px}
-  .namelist li{font-size:13.5px;position:relative;padding-left:27px;line-height:1.4}
+  .namelist li{font-size:13px;position:relative;padding-left:27px;line-height:1.4}
   .namelist li .n{position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;
-    background:var(--red);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+    background:var(--red);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
 
   details.acc{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--card);overflow:hidden}
   details.acc summary{padding:13px 15px;font-weight:800;cursor:pointer;font-size:15px;list-style:none}
@@ -174,7 +176,7 @@
   
   footer{text-align:center;padding:24px 18px 40px;color:var(--sub);font-size:13px}
   footer .logo{font-weight:800;color:var(--red);font-size:16px}
-  .note{color:var(--sub);font-size:13.5px;margin-top:12px}
+  .note{color:var(--sub);font-size:13px;margin-top:12px}
 
   /* ===== 인터랙티브 공용 ===== */
   .seg{display:flex;flex-wrap:wrap;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:5px;gap:5px;margin-bottom:12px}
@@ -183,11 +185,11 @@
   .ctrls label{display:block;font-size:14px;font-weight:700;color:var(--sub);margin:10px 0 4px}
   .ctrls label b{color:var(--red);font-size:17px}
   .ctrls input[type=range]{width:100%;accent-color:var(--red);height:26px}
-  .narr{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:14.5px;line-height:1.55;margin:12px 0}
+  .narr{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:15px;line-height:1.55;margin:12px 0}
   .narr b{color:var(--red)}
-  .swrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:14.5px}
+  .swrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:15px}
   .swrow:last-of-type{border-bottom:0}
-  .swrow .t b{display:block;font-size:12.5px;color:var(--sub);font-weight:600;margin-top:2px}
+  .swrow .t b{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-top:2px}
   .tgl{flex:0 0 auto;width:52px;height:30px;border-radius:999px;border:0;background:#cfcfd4;position:relative;cursor:pointer;transition:.18s}
   .tgl::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
   .tgl.on{background:var(--red)}
@@ -199,7 +201,7 @@
   .v-wait{background:#f2f2f4;border-color:#c9c9cf;color:#4a4a52}
   .v-auto{background:#eef6ff;border-color:#9ec4ee;color:#0b4a8a}
   .prio{margin:10px 0 0;padding:0;list-style:none;counter-reset:pr}
-  .prio li{position:relative;padding:10px 12px 10px 42px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;font-size:14px;counter-increment:pr;background:var(--card)}
+  .prio li{position:relative;padding:10px 12px 10px 42px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;font-size:15px;counter-increment:pr;background:var(--card)}
   .prio li::before{content:counter(pr);position:absolute;left:10px;top:10px;width:22px;height:22px;border-radius:50%;background:var(--line);color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
   .prio li.hit{border-color:var(--red);background:#fff5f6;font-weight:800}
   .prio li.hit::before{background:var(--red)}
@@ -229,7 +231,7 @@
   .tsearch:focus{outline:none;border-color:var(--red)}
   .tcount{font-size:13px;color:var(--sub);font-weight:700;margin-bottom:8px}
   .fix{margin:6px 0 0;padding:0;list-style:none}
-  .fix li{font-size:14px;padding:7px 0 7px 20px;position:relative;border-bottom:1px dashed var(--line);line-height:1.55}
+  .fix li{font-size:15px;padding:7px 0 7px 20px;position:relative;border-bottom:1px dashed var(--line);line-height:1.55}
   .fix li:last-child{border-bottom:0}
   .fix li::before{content:"→";position:absolute;left:0;color:var(--red);font-weight:800}
   .fix li.q::before{content:"?";color:var(--sub)}
@@ -266,9 +268,9 @@
 
   /* 그림 번역 범례 */
   .imgleg{margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;counter-reset:leg}
-  .imgleg li{font-size:14px;color:var(--sub);padding-left:24px;position:relative;line-height:1.5;counter-increment:leg}
-  .imgleg li::before{content:counter(leg);position:absolute;left:0;top:0;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1}
-  .imgleg-t{font-size:14.5px;font-weight:800;color:var(--red);margin:12px 0 4px}
+  .imgleg li{font-size:15px;color:var(--sub);padding-left:24px;position:relative;line-height:1.5;counter-increment:leg}
+  .imgleg li::before{content:counter(leg);position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1}
+  .imgleg-t{font-size:15px;font-weight:800;color:var(--red);margin:12px 0 4px}
   @media (min-width:640px){.imgleg{grid-template-columns:1fr 1fr 1fr}}
   /* 일러스트에 한글 라벨이 없으므로 마커·범례는 모든 언어에서 표시 */
 
@@ -317,9 +319,9 @@
   .accgrid figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;
     padding:8px 6px 7px;text-align:center;box-shadow:var(--shadow)}
   .accgrid img{width:100%;max-height:86px;object-fit:contain;display:block;margin:0 auto}
-  .accgrid figcaption{font-size:11.5px;font-weight:700;margin-top:6px;line-height:1.3;word-break:keep-all;hyphens:none}
+  .accgrid figcaption{font-size:13px;font-weight:700;margin-top:6px;line-height:1.3;word-break:keep-all;hyphens:none}
   @media(max-width:519px){.accgrid figcaption{font-size:11px}}
-  .accgrid figcaption small{display:block;font-weight:600;color:var(--sub);font-size:10.5px;margin-top:1px}
+  .accgrid figcaption small{display:block;font-weight:600;color:var(--sub);font-size:12px;margin-top:1px}
   /* 별도판매는 1종이라 격자가 늘어지지 않게 폭 제한 */
   .accgrid.one{grid-template-columns:minmax(0,180px)}
   /* 설정화면 갤러리(격자) */
