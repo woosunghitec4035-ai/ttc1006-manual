@@ -1218,9 +1218,9 @@
     <p class="lead">본 컨트롤러는 자연환기 창을 개폐하여 그린하우스 내부의 온도를 관리하는 장치로, 재배작물의 특성에 맞게 사용할 수 있도록 <b>목표온도를 설정하여 제어하는 온도제어</b>와 <b>시간을 정해 환기창을 열거나 닫는 시간제어</b> 방식이 채택되어 있습니다. 이 2가지 중에서 한가지를 선택하여 운전할 수 있습니다.</p>
     <div class="subh2">📋 설정기호(F · H · C)란?</div>
     <p>제어부 오른쪽에는 <b>설정기호표</b>가 붙어 있습니다. 설정할 수 있는 항목마다 <b>F-1 · H-2 · C-3</b> 같은 기호가 정해져 있고, 그 기호가 <b>무엇을 정하는 항목인지</b>와 <b>설정할 수 있는 범위</b>를 이 표에서 확인합니다.</p>
-    <figure class="figbox">
+    <figure class="figbox wide">
       <img class="photo" src="img/code_table.webp" alt="제어부 설정기호표" loading="lazy">
-      <figcaption>제어부 설정기호표 — 위 <b>❶ F</b> 기본 설정 6가지 / 아래 <b>❷ H&amp;C</b> 제어 설정 11가지</figcaption>
+      <figcaption>제어부 설정기호표 — 왼쪽 <b>❶ F</b> 기본 설정 6가지 / 오른쪽 <b>❷ H&amp;C</b> 제어 설정 11가지</figcaption>
     </figure>
     <ul class="bullet">
       <li><b>❶ F</b> 버튼으로 부르는 <b>F-1 ~ F-6</b> — 제어방식·고온경보·빗물감지·현재시각 등 <b>기본 설정</b>입니다.</li>
@@ -1250,8 +1250,6 @@
         <li><b>닫힘 개시온도</b> = 목표온도 <b>－</b> 온도 폭의 <b>절반</b></li>
       </ul>
       <div class="tipbox">[예] 목표온도 <b>25℃</b>, 온도 폭 <b>4℃</b>로 설정하면 → 실내온도가 <b>27℃</b>가 되면 열림 작동, <b>23℃</b>가 되면 닫힘 작동이 시작됩니다. 그 사이(23~27℃)에서는 작동하지 않습니다.</div>
-    </div>
-
     </div>
 
     <div class="subh2">1) 기본작동 (H-3 코드 1)</div>
@@ -1400,6 +1398,7 @@
       <div class="tlleg" data-notrans><span class="r">작동(열림)</span><span class="w">대기(정지)</span></div>
       <div class="winbar"><i id="winFill"></i></div>
       <div class="narr" id="modeNarr"></div>
+    </div>
 
   </section>
 
