@@ -559,7 +559,7 @@ window.LABEL_IMAGES = [
  },
  {
   "f": "scr_f2.webp",
-  "t": "F-2 · 비상고온 42℃",
+  "t": "F-2 · 고온경보 42℃",
   "sec": "setting",
   "pg": 10,
   "pt": "데이터 설정",
