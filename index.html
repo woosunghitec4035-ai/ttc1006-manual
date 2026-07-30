@@ -1732,14 +1732,13 @@
       <li><b>아래 — 수동역출력운전</b> : 지시와 <b>반대로</b> 작동합니다. (열림 지시 → 닫힘)</li>
     </ul>
     <div class="scrollx"><table class="kvtbl">
-      <tr><th>수동운전 스위치</th><th>개별라인 스위치</th><th>실제 작동</th></tr>
-      <tr><td rowspan="2"><b>상 열림</b></td><td>상 수동정상운전</td><td><b>열림</b> 작동</td></tr>
-      <tr><td>하 수동역출력운전</td><td><b>닫힘</b> 작동</td></tr>
-      <tr><td rowspan="2"><b>하 닫힘</b></td><td>상 수동정상운전</td><td><b>닫힘</b> 작동</td></tr>
-      <tr><td>하 수동역출력운전</td><td><b>열림</b> 작동</td></tr>
-      <tr><td><b>중 정지</b></td><td>상·중·하 모두</td><td>모든 전동개폐기 <b>정지</b></td></tr>
+      <tr><th>수동운전 스위치</th><th>개별라인 스위치</th><th>실제 작동</th><th>작동 표시램프</th></tr>
+      <tr><td rowspan="2"><b>상 열림</b></td><td>상 수동정상운전</td><td><b>열림</b> 작동</td><td>적색</td></tr>
+      <tr><td>하 수동역출력운전</td><td><b>닫힘</b> 작동</td><td>녹색</td></tr>
+      <tr><td rowspan="2"><b>하 닫힘</b></td><td>상 수동정상운전</td><td><b>닫힘</b> 작동</td><td>녹색</td></tr>
+      <tr><td>하 수동역출력운전</td><td><b>열림</b> 작동</td><td>적색</td></tr>
+      <tr><td><b>중 정지</b></td><td>상·중·하 모두</td><td>모든 전동개폐기 <b>정지</b></td><td>꺼짐</td></tr>
     </table></div>
-    <p class="note">각 라인의 <b>작동 표시램프</b> — 열림 <b>적색</b> / 정지 <b>꺼짐</b> / 닫힘 <b>녹색</b></p>
     <div class="alert caution"><span class="ic">🌡️</span><div>수동운전 중에도 그린하우스 내부 온도가 <b>서모스타트에 설정된 온도보다 높아지면 특별 열림 작동</b>이 실행됩니다.<br>※ 수동운전 중에는 <b>빗물감지에 의한 제어기능이 적용되지 않습니다.</b></div></div>
 
     <div class="subh">2. 자동운전</div>
@@ -1763,9 +1762,9 @@
     </figure>
     <div class="alert caution"><span class="ic">⚠️</span><div>제어부가 <b>정상적으로 작동될 때에는 응급운전 스위치를 누르지 마십시오.</b> 정상 작동 중에는 눌러도 운전되지 않습니다.</div></div>
     <div class="scrollx"><table class="kvtbl">
-      <tr><th>응급운전 스위치</th><th>개별라인 상</th><th>개별라인 하</th><th>개별라인 중</th></tr>
-      <tr><td><b>상단 ▬ (열림)</b></td><td><b>열림</b> 작동</td><td>닫힘 작동</td><td>정지</td></tr>
-      <tr><td><b>하단 ═ (닫힘)</b></td><td><b>닫힘</b> 작동</td><td>열림 작동</td><td>정지</td></tr>
+      <tr><th>응급운전 스위치</th><th>개별라인 <b>상</b><br><small>수동정상운전</small></th><th>개별라인 <b>중</b><br><small>정지</small></th><th>개별라인 <b>하</b><br><small>수동역출력운전</small></th></tr>
+      <tr><td><b>▲ OPEN</b> 누름</td><td><b>열림</b> 작동</td><td>정지</td><td>닫힘 작동</td></tr>
+      <tr><td><b>▼ CLOSE</b> 누름</td><td><b>닫힘</b> 작동</td><td>정지</td><td>열림 작동</td></tr>
     </table></div>
   </section>
 
