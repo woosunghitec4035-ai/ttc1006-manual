@@ -244,6 +244,12 @@
   .tcount{font-size:13px;color:var(--sub);font-weight:700;margin-bottom:8px}
   .fix{margin:6px 0 0;padding:0;list-style:none}
   .fix li{font-size:15px;padding:7px 0 7px 20px;position:relative;border-bottom:1px dashed var(--line);line-height:1.55}
+  /* 증상별 관련 장 바로가기. 링크는 반드시 자기 요소 하나만 담을 것 —
+     본문 문장 안에 <a>를 넣으면 그 문장이 번역 단위에서 빠진다 */
+  .reflinks{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+  .reflinks a{font-size:13px;font-weight:700;text-decoration:none;color:var(--red);
+    background:#fdf4f4;border:1px solid #f2cccc;border-radius:999px;padding:5px 12px}
+  html[data-theme="dark"] .reflinks a{background:#2a1416;border-color:#7a2333;color:#f0b8c2}
   .fix li:last-child{border-bottom:0}
   .fix li::before{content:"→";position:absolute;left:0;color:var(--red);font-weight:800}
   .fix li.q::before{content:"?";color:var(--sub)}
@@ -1784,7 +1790,7 @@
       <li>전동개폐기의 종류에 따라 구동축의 회전방향이 다릅니다. 극성에 따른 회전방향을 모르고 작업하는 경우에는 <b>양극을 바꾸어 접속하면서</b> 구동축 회전방향을 확인하십시오.</li>
     </ol>
     <div class="alert danger"><span class="ic">⚡</span><div>배터리를 연결하기 전에 먼저 <b>전원공급 콘센트에서 플러그를 빼서 전원을 완전히 차단</b>하여 주십시오. 예고 없이 AC 230V 전기가 들어왔을 때 <b>감전의 위험</b>이 있습니다.</div></div>
-    <div class="tipbox">개별라인 스위치 번호와 <b>일치하는 출력단자 번호</b>를 잘 구분하십시오. [구분 예] 개별라인 스위치 <b>라인-1</b>의 출력단자는 <b>라인-1</b>입니다.<br>※ 응급조치 후에는 <b>작동이 정지된 원인을 찾아</b> 문제를 해결하도록 하십시오.</div>
+    <div class="tipbox">개별라인 스위치 번호와 <b>일치하는 출력단자 번호</b>를 잘 구분하십시오. [구분 예] 개별라인 스위치 <b>라인-1</b>의 출력단자는 <b>라인-1</b>입니다. 출력단자는 <b>전동개폐기 1대 단위로 분할</b>되어 있습니다.<br>※ 응급조치 후에는 <b>작동이 정지된 원인을 찾아</b> 문제를 해결하도록 하십시오.</div>
 
     <div class="subh">2. 증상별 진단과 해결방법</div>
     <p class="lead">전동개폐기가 정상적으로 연결된 경우에 문제가 발생하면 아래 증상항목을 점검하고 조치하여 주십시오. 그래도 작동하지 않을 때에는 <b>당사로 연락</b>하여 주십시오.</p>
@@ -1803,7 +1809,9 @@
           <li>전원 콘센트에 전원코드의 플러그가 제대로 꽂혀 있는지 확인하십시오.</li>
           <li class="q">전원 퓨즈가 끊어지지 않았는가를 확인하십시오.</li>
           <li>끊어졌다면 <b>용량에 맞는 새 퓨즈</b>로 교환하십시오. 퓨즈가 홀더에 제대로 삽입되어 있는지도 확인하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#install">Ⅳ. 설치·전원 연결</a><a href="#fuse">Ⅴ. 퓨즈 관리</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="누전차단기 내려온다 전원 차단 이물질 합선 과부하 과전압">
@@ -1816,7 +1824,9 @@
           <li class="q">컨트롤러의 전원스위치를 켜(ON)면 누전차단기의 스위치가 내려올 때</li>
           <li>누전차단기가 정상이라면 <b>컨트롤러 내부에서 누전</b>되고 있습니다.</li>
           <li>또는 과부하·과전압 등으로 인하여 컨트롤러 내부의 부품이 손상되었습니다. 작물의 피해방지를 위해 신속한 응급조치를 하고 <b>당사로 연락</b>하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#install">Ⅳ. 설치·전원 연결</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="전원 퓨즈 연속 끊어진다 용량 부품 고장">
@@ -1829,7 +1839,9 @@
           <li class="q">어느 한대의 전동개폐기를 작동하면 퓨즈가 끊어질 때</li>
           <li>출력 단자에서 전동개폐기까지 연결된 <b>전선의 이상이 있는지</b> 확인하십시오.</li>
           <li>전동개폐기의 <b>고장 또는 과부하 상태인지</b> 확인하고 조치해 주십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#fuse">Ⅴ. 퓨즈 관리</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="한대 전동개폐기 작동되지 않는다 개별 퓨즈 모터 합선 벼락">
@@ -1842,7 +1854,9 @@
           <li><b>벼락(낙뢰) 및 과전압</b>에 의해 개별퓨즈가 끊어질 수 있습니다.</li>
           <li>개별 스위치를 <b>급격하게 조작</b>하면 개별퓨즈가 끊어질 수 있습니다.</li>
           <li>컨트롤러의 단자와 전동개폐기를 연결한 <b>전선의 이상이 있는지</b> 확인하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#fuse">Ⅴ. 퓨즈 관리</a><a href="#wiring">Ⅵ. 전동개폐기 연결</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="열리기만 닫히지 않는다 서모스타트 경보음 고온경보 온도">
@@ -1855,7 +1869,9 @@
           <li class="q">경음기가 <b>간헐적으로 울리면서</b> 닫힘 작동이 되지 않을 때</li>
           <li><b>고온경보(F-2)로 설정한 온도</b>를 잘못(낮게) 설정하였다면 다시 설정하십시오.</li>
           <li>※ 자동 운전할 때 고온경보 온도를 <b>닫힘 개시온도보다 낮게</b> 설정하면 닫힘 작동이 되지 않습니다.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a><a href="#control">Ⅷ. 제어기능</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="반대로 회전 극성 전선 색깔 바꿔">
@@ -1863,7 +1879,9 @@
         <div class="accbody"><ul class="fix">
           <li class="q">전동개폐기의 구동축이 반대로 회전할 때</li>
           <li><b>전기 극성이 맞지 않았습니다.</b> 단자에 연결한 전선의 색깔을 <b>서로 바꿔서</b> 연결하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#wiring">Ⅵ. 전동개폐기 연결</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="온도 표시 되지 않는다 센서 코드 연결">
@@ -1871,7 +1889,9 @@
         <div class="accbody"><ul class="fix">
           <li class="q">현재온도가 표시되지 않고 <b>"－－－"</b>로 표시될 때</li>
           <li><b>디지털 온도센서 및 센서코드(전선) 연결상태</b>를 점검하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="자동운전 안된다 운전선택 스위치 대기시간">
@@ -1880,7 +1900,9 @@
           <li class="q">작동개시 온도가 되었는데도 작동이 되지 않을 때</li>
           <li><b>운전선택 스위치가 자동운전</b>에 맞추어져 있는지를 확인하십시오.</li>
           <li><b>대기시간</b> 동안은 작동되지 않습니다.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#operate">ⅩⅠ. 운전 방법</a><a href="#setting">Ⅹ. 데이터 설정</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="자동 운전 열림 작동 안된다 레인센서 빗물 이물질 개별라인 정지">
@@ -1892,7 +1914,9 @@
           <li>레인센서의 <b>빗물 감지 판에 이물질</b>이 묻어 있는지를 확인하십시오.</li>
           <li>만약 비가 그친 후 약 10분이 지나도 제어부의 빗물감지 표시램프가 <b>녹색으로 켜져 있지 않으면</b> 레인센서를 점검하십시오.</li>
           <li>개별라인 스위치를 <b>정지로 맞춘</b> 해당 단자에 연결된 전동개폐기는 작동되지 않습니다.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a><a href="#control">Ⅷ. 제어기능</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="자동 운전 닫힘 작동 안된다 서모스타트 고온경보 설정온도">
@@ -1902,7 +1926,9 @@
           <li><b>서모스타트의 설정온도</b>를 확인하고 조치하십시오. 서모스타트 설정온도가 닫힘 개시온도보다 낮을 때는 닫힘 작동이 되지 않습니다.</li>
           <li><b>고온경보로 설정한 온도</b>를 확인하고 조치하십시오. 고온경보 온도가 닫힘 개시온도보다 낮을 때는 닫힘 작동이 되지 않습니다.</li>
           <li>※ 개별라인 스위치를 정지로 맞춘 해당 단자에 연결된 전동개폐기는 작동되지 않습니다.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a><a href="#control">Ⅷ. 제어기능</a><a href="#setting">Ⅹ. 데이터 설정</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="비 오지 않는데 레인센서 계속 작동 오염 낙뢰 과전압 경고음">
@@ -1912,7 +1938,9 @@
           <li>레인센서의 빗물 감지판에 <b>이물질 등이 묻어(오염)있는가</b>를 확인하십시오. 제거한 다음 정상상태가 되면 물을 뿌려 다시 실험해 보십시오.</li>
           <li>레인센서가 <b>낙뢰(벼락)·과전압 등으로 손상</b>되지 않았는가를 확인하십시오. 정상적인 대기 중에는 레인센서의 밑면에 <b>녹색 램프</b>가 켜집니다.</li>
           <li>자동 운전 중에 레인센서가 오작동하면 열림 작동이 되지 않을 수 있습니다. 즉시 레인센서의 <b>연결 잭을 컨트롤러에서 분리</b>하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="자동운전 비 오는 중에도 열림 서모스타트 고온경보 우선">
@@ -1921,7 +1949,9 @@
           <li class="q">자동운전 중 빗물이 감지되었는데 열림 작동이 되었을 때</li>
           <li><b>서모스타트에 설정된 온도</b>를 확인하십시오. ※ 서모스타트의 온도감지부가 감지한 온도(실내온도)가 설정온도보다 높으면 <b>열림 작동이 우선</b>됩니다.</li>
           <li><b>고온경보(F-2) 설정 온도</b>를 확인하십시오. ※ 현재온도가 고온경보로 설정한 온도보다 높으면 열림 작동이 됩니다.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a><a href="#control">Ⅷ. 제어기능</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="수동운전 안된다 운전선택 스위치 하향">
@@ -1929,7 +1959,9 @@
         <div class="accbody"><ul class="fix">
           <li class="q">수동운전 스위치를 조작해도 작동되지 않을 때</li>
           <li><b>운전선택 스위치를 하향으로 내렸는가</b>를 확인하십시오. 수동 운전을 하려면 운전선택 스위치를 하향으로 선택하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#operate">ⅩⅠ. 운전 방법</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="수동운전 열림 작동 안된다 개별라인 정지">
@@ -1937,7 +1969,9 @@
         <div class="accbody"><ul class="fix">
           <li class="q">수동운전 스위치를 위로 올려 열림을 했는데도 열림 작동이 되지 않을 때</li>
           <li>개별라인 스위치를 <b>정지로 맞춘</b> 해당 단자에 연결된 전동개폐기는 작동되지 않습니다.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#operate">ⅩⅠ. 운전 방법</a></div>
+      </div>
       </details>
 
       <details class="acc ts" data-k="수동운전 닫힘 작동 안된다 서모스타트 온도 열림 우선">
@@ -1947,7 +1981,9 @@
           <li>개별라인 스위치를 <b>정지로 맞춘</b> 해당 단자에 연결된 전동개폐기는 작동되지 않습니다.</li>
           <li class="q">닫힘을 했는데도 <b>열림 작동</b>이 될 때</li>
           <li><b>서모스타트에 설정된 온도</b>를 확인하십시오. ※ 그린하우스 내부온도가 서모스타트 설정온도보다 높을 때는 닫힘 작동이 되지 않고 열림 작동이 됩니다. 온도설정이 잘못되었으면 다시 설정하십시오.</li>
-        </ul></div>
+        </ul>
+        <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a><a href="#operate">ⅩⅠ. 운전 방법</a></div>
+      </div>
       </details>
 
     </div>
