@@ -196,6 +196,7 @@
   .seg button.active{background:var(--red);color:#fff}
   .ctrls label{display:block;font-size:14px;font-weight:700;color:var(--sub);margin:10px 0 4px}
   .ctrls label b{color:var(--red);font-size:17px}
+  .ctrls .lb{font-style:normal}
   .ctrls input[type=range]{width:100%;accent-color:var(--red);height:26px}
   .narr{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:15px;line-height:1.55;margin:12px 0}
   .narr b{color:var(--red)}
@@ -383,6 +384,12 @@
   .draftbar b{color:#ffe9c7}
 </style>
 <script>
+/* JS가 실행 중에 써넣는 문구는 사전이 닿지 않는다(위젯·판정문·검색 안내).
+   WSM_L(ko,en) 으로 골라 쓰고, 언어가 바뀌면 WSM_REDRAW 에 등록된 함수를 다시 부른다. */
+window.WSM_L=function(ko,en){ return (window.WSM_LANG&&window.WSM_LANG!=='ko')?en:ko; };
+window.WSM_REDRAW=[];
+</script>
+<script>
 (function(){try{var t=localStorage.getItem('wsm-theme');if(t!=='light'&&t!=='dark')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
 </script>
 </head>
@@ -429,7 +436,7 @@
     if((pw.value||'').trim()===PW){
       try{sessionStorage.setItem('ttc1006-auth','1');}catch(e){}
       openManual();
-    }else{ err.textContent='비밀번호가 올바르지 않습니다.'; pw.value=''; pw.focus(); }
+    }else{ err.textContent=WSM_L('비밀번호가 올바르지 않습니다.','Incorrect password.'); pw.value=''; pw.focus(); }
   }
   if(btn) btn.addEventListener('click',submit);
   if(pw) pw.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
@@ -1382,17 +1389,17 @@
     <div class="card">
       <div class="subh2" style="margin-top:0">🧭 특별작동 우선순위 판정기</div>
       <p class="note" style="margin-top:0">현재 상황을 켜고 끄면, 실제로 <b>어떤 작동이 실행되는지</b> 판정해 드립니다.</p>
-      <div class="seg" id="opSeg" data-notrans>
+      <div class="seg" id="opSeg">
         <button data-op="auto" class="active">자동운전</button>
         <button data-op="man">수동운전</button>
       </div>
-      <div class="swrow"><div class="t">서모스타트 설정온도 초과<div><b>실내온도 &gt; 서모스타트 설정</b></div></div><button class="tgl" id="sw1" data-notrans></button></div>
-      <div class="swrow"><div class="t">고온경보(F-2) 온도 초과<div><b>실내온도 &gt; 고온경보 설정</b></div></div><button class="tgl" id="sw2" data-notrans></button></div>
-      <div class="swrow"><div class="t">레인센서 빗물 감지<div><b>F-3 = 적용 상태</b></div></div><button class="tgl" id="sw3" data-notrans></button></div>
-      <div class="swrow"><div class="t">작동 조건 없이 30분 경과<div><b>잠자기 조건</b></div></div><button class="tgl" id="sw4" data-notrans></button></div>
-      <div class="swrow"><div class="t">해당 개별라인 스위치 = 정지<div><b>그 라인만 별도 적용</b></div></div><button class="tgl" id="sw5" data-notrans></button></div>
+      <div class="swrow"><div class="t"><div class="n">서모스타트 설정온도 초과</div><div><b>실내온도 &gt; 서모스타트 설정</b></div></div><button class="tgl" id="sw1" data-notrans></button></div>
+      <div class="swrow"><div class="t"><div class="n">고온경보(F-2) 온도 초과</div><div><b>실내온도 &gt; 고온경보 설정</b></div></div><button class="tgl" id="sw2" data-notrans></button></div>
+      <div class="swrow"><div class="t"><div class="n">레인센서 빗물 감지</div><div><b>F-3 = 적용 상태</b></div></div><button class="tgl" id="sw3" data-notrans></button></div>
+      <div class="swrow"><div class="t"><div class="n">작동 조건 없이 30분 경과</div><div><b>잠자기 조건</b></div></div><button class="tgl" id="sw4" data-notrans></button></div>
+      <div class="swrow"><div class="t"><div class="n">해당 개별라인 스위치 = 정지</div><div><b>그 라인만 별도 적용</b></div></div><button class="tgl" id="sw5" data-notrans></button></div>
       <div class="verdict v-auto" id="opVerdict">판정 결과</div>
-      <ol class="prio" id="opPrio" data-notrans>
+      <ol class="prio" id="opPrio">
         <li data-p="1">서모스타트에 의한 특별작동 <span class="tag">열림</span></li>
         <li data-p="2">고온경보에 의한 특별작동 <span class="tag">열림</span></li>
         <li data-p="3">빗물 감지에 의한 특별작동 <span class="tag">닫힘</span></li>
@@ -1403,20 +1410,20 @@
     <div class="card">
       <div class="subh2" style="margin-top:0">🎬 작동방식 비교 시뮬레이터</div>
       <p class="note" style="margin-top:0">방식을 고르고 <b>온도차</b>를 조절해 보세요. 아래에 실제 개폐 패턴이 그려집니다.</p>
-      <div class="seg" id="modeSeg" data-notrans>
+      <div class="seg" id="modeSeg">
         <button data-k="basic" class="active">코드1 기본작동</button>
         <button data-k="std">코드2 표준작동</button>
         <button data-k="adv">코드3 고급작동</button>
       </div>
       <div class="ctrls">
-        <label>실내온도가 열림 개시온도보다 <b id="diffV">1.0</b> ℃ 높음</label>
+        <label><i class="lb" id="lbDiff">실내온도가 열림 개시온도보다</i> <b id="diffV">1.0</b> <i class="lb" id="lbDiff2">℃ 높음</i></label>
         <input type="range" id="diffR" min="0" max="5" step="0.5" value="1">
-        <label>작동시간 H-4 = <b id="runV">10</b> 초 · 대기시간 H-5 = <b id="waitV">20</b> 초</label>
+        <label><i class="lb" id="lbRun">작동시간 H-4</i> = <b id="runV">10</b> <i class="lb" id="lbRun2">초 · 대기시간 H-5</i> = <b id="waitV">20</b> <i class="lb" id="lbWait2">초</i></label>
         <input type="range" id="runR" min="5" max="60" step="5" value="10">
         <input type="range" id="waitR" min="10" max="99" step="5" value="20">
       </div>
       <div class="timeline" id="tline" data-notrans></div>
-      <div class="tlleg" data-notrans><span class="r">작동(열림)</span><span class="w">대기(정지)</span></div>
+      <div class="tlleg"><span class="r">작동(열림)</span><span class="w">대기(정지)</span></div>
       <div class="winbar"><i id="winFill"></i></div>
       <div class="narr" id="modeNarr"></div>
     </div>
@@ -1539,8 +1546,8 @@
     </figure>
     <div class="scrollx"><table class="kvtbl">
       <tr><th>버튼명칭</th><th>사용 방법</th><th class="l">기능</th></tr>
-      <tr><td><b>①번 버튼</b></td><td>짧게 누름</td><td class="l">기본 데이터가 차례대로 표시됨</td></tr>
-      <tr><td><b>②번 버튼</b></td><td>짧게 누름</td><td class="l">제어 데이터가 차례대로 표시됨</td></tr>
+      <tr><td><b>❶번 버튼</b></td><td>짧게 누름</td><td class="l">기본 데이터가 차례대로 표시됨</td></tr>
+      <tr><td><b>❷번 버튼</b></td><td>짧게 누름</td><td class="l">제어 데이터가 차례대로 표시됨</td></tr>
       <tr><td><b>▲올림</b></td><td>짧게 누름</td><td class="l">데이터 값을 올리거나 코드 선택</td></tr>
       <tr><td><b>▼내림</b></td><td>짧게 누름</td><td class="l">데이터 값을 내리거나 코드 선택</td></tr>
       <tr><td><b>■저장</b></td><td>짧게 누름</td><td class="l">설정한 데이터가 저장됨</td></tr>
@@ -1573,14 +1580,14 @@
     <div class="card">
       <div class="subh2" style="margin-top:0">설정 기본 흐름</div>
       <ol class="proc">
-        <li>설정버튼 <b>①번(기본) 또는 ②번(제어)</b>을 눌러 왼쪽 화면에 <b>설정기호</b>를 표시합니다.</li>
+        <li>설정버튼 <b>❶번(기본) 또는 ❷번(제어)</b>을 눌러 왼쪽 화면에 <b>설정기호</b>를 표시합니다.</li>
         <li>오른쪽 화면의 데이터가 <b>점멸</b>될 때 <b>▲올림 / ▼내림</b> 버튼을 눌러 데이터를 변경합니다.</li>
         <li>저장 방법은 2가지입니다.<br>· 설정 후 <b>저장버튼</b>을 누르면 즉시 저장되고 정상 운전화면으로 돌아옵니다.<br>· 설정 후 아무런 버튼을 누르지 않으면 <b>20초 후에 "삑" 소리</b>가 나면서 저장됩니다.</li>
       </ol>
       <div class="alert danger" style="margin-bottom:0"><span class="ic">⚡</span><div>데이터 설정 도중에 <b>전원이 꺼지면</b> 설정한 데이터가 저장되지 않으므로 다시 설정해야 합니다.</div></div>
     </div>
 
-    <div class="subh">1. 기본설정 (설정버튼 ①번) — F 기호</div>
+    <div class="subh">1. 기본설정 (설정버튼 ❶번) — F 기호</div>
     <div class="scrollx"><table class="kvtbl">
       <tr><th>설정항목</th><th>기호</th><th>출고시</th><th>설정 범위</th><th>단위</th></tr>
       <tr><td class="l">제어방식</td><td><b>F-1</b></td><td>1</td><td>1=온도 또는 2=시간</td><td>1 또는 2</td></tr>
@@ -1622,7 +1629,7 @@
       </div>
     </details>
 
-    <div class="subh">2. 제어 데이터 설정 (설정버튼 ②번)</div>
+    <div class="subh">2. 제어 데이터 설정 (설정버튼 ❷번)</div>
     <p class="lead">온도제어를 선택했을 때는 설정기호가 <b>"H-"</b>로, 시간제어를 선택했을 때는 <b>"C-"</b>로 표시됩니다.</p>
 
     <div class="subh2">■ 온도제어 방식 (H)</div>
@@ -1639,18 +1646,18 @@
       <div class="subh2" style="margin-top:0">🌡️ 온도 폭 계산기 (H-1 × H-2)</div>
       <p class="note" style="margin-top:0">목표온도와 온도 폭을 조절하면 <b>열림·닫힘 개시온도</b>가 자동으로 계산됩니다.</p>
       <div class="ctrls">
-        <label>H-1 목표온도 = <b id="tgtV">26</b> ℃</label>
+        <label><i class="lb" id="lbTgt">H-1 목표온도</i> = <b id="tgtV">26</b> ℃</label>
         <input type="range" id="tgtR" min="5" max="45" step="1" value="26">
-        <label>H-2 온도 폭 = <b id="bandV">3</b> ℃</label>
+        <label><i class="lb" id="lbBand">H-2 온도 폭</i> = <b id="bandV">3</b> ℃</label>
         <input type="range" id="bandR" min="2" max="10" step="1" value="3">
       </div>
       <div class="tempcalc">
         <svg id="tcSvg" viewBox="0 0 380 190" role="img" aria-label="온도 폭 도해"></svg>
       </div>
-      <div class="tcvals" data-notrans>
-        <div class="open"><div class="k">열림 개시온도</div><div class="v" id="openV">27.5℃</div></div>
-        <div><div class="k">목표온도</div><div class="v" id="midV">26℃</div></div>
-        <div class="close"><div class="k">닫힘 개시온도</div><div class="v" id="closeV">24.5℃</div></div>
+      <div class="tcvals">
+        <div class="open"><div class="k">열림 개시온도</div><div class="v" id="openV" data-notrans>27.5℃</div></div>
+        <div><div class="k">목표온도</div><div class="v" id="midV" data-notrans>26℃</div></div>
+        <div class="close"><div class="k">닫힘 개시온도</div><div class="v" id="closeV" data-notrans>24.5℃</div></div>
       </div>
       <div class="narr" id="tcNarr"></div>
     </div>
@@ -1671,7 +1678,7 @@
           <figure class="figbox"><img class="photo" src="img/scr_h3c.webp" alt="H-3 = 3 · 고급" loading="lazy"><figcaption>H-3 = 3 · 고급</figcaption></figure>
         </div>
         <p><b>기본</b> — 작동개시 온도가 되었을 때 연속적으로 작동하는 제어방식.<br><b>표준</b> — 작동시간으로 설정한 시간 동안 작동한 다음 대기시간 동안 정지하는 것을 반복적으로 실행.<br><b>고급</b> — 작동 후 대기시간 중에 온도를 측정하여 작동할 것인지 대기(정지)를 지속할 것인지를 <b>스스로 판단</b>하는 작동방식.</p>
-        <p class="note">※ <b>기본작동(코드 1)을 선택하면</b> 설정버튼 ②번을 눌러도 <b>H-4·H-5가 나타나지 않고 H-1로 돌아갑니다.</b> 기본작동은 연속으로 작동하므로 작동시간·대기시간을 설정하지 않습니다.</p>
+        <p class="note">※ <b>기본작동(코드 1)을 선택하면</b> 설정버튼 ❷번을 눌러도 <b>H-4·H-5가 나타나지 않고 H-1로 돌아갑니다.</b> 기본작동은 연속으로 작동하므로 작동시간·대기시간을 설정하지 않습니다.</p>
         <div class="subh2">H-4 작동시간 / H-5 대기시간</div>
         <div class="figrow">
           <figure class="figbox"><img class="photo" src="img/scr_h4.webp" alt="H-4 · 작동시간 15초" loading="lazy"><figcaption>H-4 · 작동시간 15초</figcaption></figure>
@@ -1714,7 +1721,7 @@
           <figure class="figbox"><img class="photo" src="img/scr_c6.webp" alt="C-6 · 대기시간 35초" loading="lazy"><figcaption>C-6 · 대기시간 35초</figcaption></figure>
         </div>
         <p><b>C-5</b>는 작동시각이 되었을 때 전동개폐기가 작동할 시간, <b>C-6</b>은 작동한 다음 대기할 시간입니다. 작동 → 대기를 <b>C-3에서 정한 횟수만큼</b> 반복합니다.</p>
-        <div class="tipbox">C-6까지 설정한 다음 설정버튼 ②번을 짧게 누르면 열림시간 설정기호 <b>C-1</b>이 나타나며, 저장버튼을 누르면 <b>"삑-"</b> 소리가 나면서 저장됩니다.</div>
+        <div class="tipbox">C-6까지 설정한 다음 설정버튼 ❷번을 짧게 누르면 열림시간 설정기호 <b>C-1</b>이 나타나며, 저장버튼을 누르면 <b>"삑-"</b> 소리가 나면서 저장됩니다.</div>
       </div>
     </details>
   </section>
@@ -1912,7 +1919,7 @@
           <li><b>레인센서에 빗물이 감지</b>되었을 때에는 닫힘 작동이 됩니다.</li>
           <li class="q">비가 내리지 않는데도 레인센서에서 경보음이 나면서 열림 작동이 되지 않을 때</li>
           <li>레인센서의 <b>빗물 감지 판에 이물질</b>이 묻어 있는지를 확인하십시오.</li>
-          <li>만약 비가 그친 후 약 10분이 지나도 제어부의 빗물감지 표시램프가 <b>녹색으로 켜져 있지 않으면</b> 레인센서를 점검하십시오.</li>
+          <li>비가 그친 후 약 10분이 지나도 제어부의 <b>빗물감지 표시가 계속 적색 점멸</b>하면 레인센서를 점검하십시오.</li>
           <li>개별라인 스위치를 <b>정지로 맞춘</b> 해당 단자에 연결된 전동개폐기는 작동되지 않습니다.</li>
         </ul>
         <div class="reflinks"><a href="#sensor">Ⅶ. 센서·주변기기</a><a href="#control">Ⅷ. 제어기능</a></div>
@@ -2117,6 +2124,7 @@
 <script>
 /* ===== 온도 폭 계산기 ===== */
 (function(){
+  var lbTgt=document.getElementById('lbTgt'), lbBand=document.getElementById('lbBand');
   var tgtR=document.getElementById('tgtR'); if(!tgtR) return;
   var bandR=document.getElementById('bandR'), svg=document.getElementById('tcSvg');
   var tgtV=document.getElementById('tgtV'), bandV=document.getElementById('bandV');
@@ -2127,6 +2135,8 @@
     var t=+tgtR.value, b=+bandR.value, half=b/2;
     var op=t+half, cl=t-half;
     tgtV.textContent=t; bandV.textContent=b;
+    lbTgt.textContent=WSM_L('H-1 목표온도','H-1 target temp');
+    lbBand.textContent=WSM_L('H-2 온도 폭','H-2 allowance');
     openV.textContent=f(op)+'℃'; midV.textContent=t+'℃'; closeV.textContent=f(cl)+'℃';
     var dark=document.documentElement.getAttribute('data-theme')==='dark';
     var ink=dark?'#eaeaea':'#1a1a1a', sub=dark?'#a8a8a8':'#666';
@@ -2141,19 +2151,21 @@
       '<text x="'+(x0-8)+'" y="'+(yO+5)+'" text-anchor="end" font-size="17" font-weight="700" fill="#c8102e">'+f(op)+'℃</text>'+
       '<text x="'+(x0-8)+'" y="'+(yM+5)+'" text-anchor="end" font-size="17" font-weight="700" fill="'+ink+'">'+t+'℃</text>'+
       '<text x="'+(x0-8)+'" y="'+(yC+5)+'" text-anchor="end" font-size="17" font-weight="700" fill="#1a7f37">'+f(cl)+'℃</text>'+
-      '<text x="'+(x1+8)+'" y="'+(yO+5)+'" font-size="13" font-weight="700" fill="#c8102e">열림작동 개시온도</text>'+
-      '<text x="'+(x1+8)+'" y="'+(yM+5)+'" font-size="13" font-weight="700" fill="'+sub+'">목표온도 (H-1)</text>'+
-      '<text x="'+(x1+8)+'" y="'+(yC+5)+'" font-size="13" font-weight="700" fill="#1a7f37">닫힘작동 개시온도</text>'+
+      '<text x="'+(x1+8)+'" y="'+(yO+5)+'" font-size="13" font-weight="700" fill="#c8102e">'+WSM_L('열림작동 개시온도','Opening start temp')+'</text>'+
+      '<text x="'+(x1+8)+'" y="'+(yM+5)+'" font-size="13" font-weight="700" fill="'+sub+'">'+WSM_L('목표온도 (H-1)','Target temp (H-1)')+'</text>'+
+      '<text x="'+(x1+8)+'" y="'+(yC+5)+'" font-size="13" font-weight="700" fill="#1a7f37">'+WSM_L('닫힘작동 개시온도','Closing start temp')+'</text>'+
       '<line x1="'+(x0+30)+'" y1="'+yM+'" x2="'+(x0+30)+'" y2="'+yO+'" stroke="#c8102e" stroke-width="1.5" stroke-dasharray="4 3"/>'+
       '<line x1="'+(x0+30)+'" y1="'+yM+'" x2="'+(x0+30)+'" y2="'+yC+'" stroke="#1a7f37" stroke-width="1.5" stroke-dasharray="4 3"/>'+
       '<text x="'+(x0+38)+'" y="'+((yO+yM)/2+4)+'" font-size="13" font-weight="700" fill="#c8102e">＋'+f(half)+'℃</text>'+
       '<text x="'+(x0+38)+'" y="'+((yM+yC)/2+4)+'" font-size="13" font-weight="700" fill="#1a7f37">－'+f(half)+'℃</text>'+
       '<line x1="'+(x1-16)+'" y1="'+yO+'" x2="'+(x1-16)+'" y2="'+yC+'" stroke="'+sub+'" stroke-width="1.2"/>'+
-      '<text x="'+(x1-24)+'" y="'+(yM-6)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="'+sub+'">온도 폭</text>'+
-      '<text x="'+(x1-24)+'" y="'+(yM+12)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="'+sub+'">'+b+'℃ (H-2)</text>';
-    narr.innerHTML='목표온도 <b>'+t+'℃</b>에 온도 폭 <b>'+b+'℃</b>를 설정하면, 실내온도가 <b>'+f(op)+'℃</b> 이상이면 <b>열림</b>, <b>'+f(cl)+'℃</b> 이하이면 <b>닫힘</b> 작동이 시작됩니다. 그 사이 구간에서는 작동하지 않습니다.';
+      '<text x="'+(x1-24)+'" y="'+(yM-6)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="'+sub+'">'+WSM_L('온도 폭','Allowance')+'</text>'+
+      '<text x="'+(x1-24)+'" y="'+(yM+12)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="'+sub+'">'+b+WSM_L('℃ (H-2)','℃ (H-2)')+'</text>';
+    narr.innerHTML=WSM_L(
+      '목표온도 <b>'+t+'℃</b>에 온도 폭 <b>'+b+'℃</b>를 설정하면, 실내온도가 <b>'+f(op)+'℃</b> 이상이면 <b>열림</b>, <b>'+f(cl)+'℃</b> 이하이면 <b>닫힘</b> 작동이 시작됩니다. 그 사이 구간에서는 작동하지 않습니다.',
+      'With a target temperature of <b>'+t+'℃</b> and an allowance of <b>'+b+'℃</b>, the windows <b>open</b> at <b>'+f(op)+'℃</b> or above and <b>close</b> at <b>'+f(cl)+'℃</b> or below. In between, nothing runs.');
   }
-  window.TTC_TCDRAW=draw;
+  window.TTC_TCDRAW=draw; window.WSM_REDRAW.push(draw);
   tgtR.addEventListener('input',draw); bandR.addEventListener('input',draw);
   draw();
 })();
@@ -2163,6 +2175,9 @@
 /* ===== 작동방식 비교 시뮬레이터 ===== */
 (function(){
   var seg=document.getElementById('modeSeg'); if(!seg) return;
+  var lbDiff=document.getElementById('lbDiff'), lbDiff2=document.getElementById('lbDiff2'),
+      lbRun=document.getElementById('lbRun'), lbRun2=document.getElementById('lbRun2'),
+      lbWait2=document.getElementById('lbWait2');
   var diffR=document.getElementById('diffR'), runR=document.getElementById('runR'), waitR=document.getElementById('waitR');
   var diffV=document.getElementById('diffV'), runV=document.getElementById('runV'), waitV=document.getElementById('waitV');
   var tline=document.getElementById('tline'), winFill=document.getElementById('winFill'), narr=document.getElementById('modeNarr');
@@ -2171,6 +2186,11 @@
   function build(){
     var diff=+diffR.value, run=+runR.value, wait=+waitR.value;
     diffV.textContent=diff.toFixed(1); runV.textContent=run; waitV.textContent=wait;
+    lbDiff.textContent=WSM_L('실내온도가 열림 개시온도보다','Indoor temp above the opening start temp by');
+    lbDiff2.textContent=WSM_L('℃ 높음','℃');
+    lbRun.textContent=WSM_L('작동시간 H-4','Move time H-4');
+    lbRun2.textContent=WSM_L('초 · 대기시간 H-5','sec · wait time H-5');
+    lbWait2.textContent=WSM_L('초','sec');
     var segs=[], t=0, runSec=0;
     if(diff<=0){
       segs.push({k:'wait',d:TOTAL});
@@ -2201,14 +2221,19 @@
 
     var msg;
     if(diff<=0){
-      msg='실내온도가 <b>열림 개시온도에 도달하지 않았습니다.</b> 어떤 방식이든 작동하지 않고 대기합니다.';
+      msg=WSM_L('실내온도가 <b>열림 개시온도에 도달하지 않았습니다.</b> 어떤 방식이든 작동하지 않고 대기합니다.',
+                'The indoor temperature <b>has not reached the opening start temperature.</b> No mode runs — all of them wait.');
     } else if(mode==='basic'){
-      msg='<b>기본작동</b> — 개시온도가 되면 대기 없이 <b>연속으로</b> 작동합니다. 가장 빠르지만, 내·외부 온도차가 클 때 열림·닫힘이 <b>빈번히 반복</b>되어 작물 스트레스·에너지 손실·피복재 손상이 커질 수 있습니다.';
+      msg=WSM_L('<b>기본작동</b> — 개시온도가 되면 대기 없이 <b>연속으로</b> 작동합니다. 가장 빠르지만, 내·외부 온도차가 클 때 열림·닫힘이 <b>빈번히 반복</b>되어 작물 스트레스·에너지 손실·피복재 손상이 커질 수 있습니다.',
+                '<b>Basic</b> — runs <b>continuously</b>, without waiting, once the start temperature is reached. It is the fastest, but a large inside/outside temperature difference makes it <b>open and close repeatedly</b>, adding crop stress, wasted energy and wear on the covering film.');
     } else if(mode==='std'){
-      msg='<b>표준작동</b> — 작동 <b>'+run+'초</b> / 대기 <b>'+wait+'초</b>를 온도차와 관계없이 <b>일정하게 반복</b>합니다. 환기창을 여러 번 나누어 열어 급격한 온도변화를 줄입니다. 180초 중 실제 작동은 약 <b>'+pct+'%</b>입니다.';
+      msg=WSM_L('<b>표준작동</b> — 작동 <b>'+run+'초</b> / 대기 <b>'+wait+'초</b>를 온도차와 관계없이 <b>일정하게 반복</b>합니다. 환기창을 여러 번 나누어 열어 급격한 온도변화를 줄입니다. 180초 중 실제 작동은 약 <b>'+pct+'%</b>입니다.',
+                '<b>Standard</b> — <b>repeats a fixed cycle</b> of <b>'+run+' s</b> running and <b>'+wait+' s</b> waiting, whatever the temperature difference. Opening the window in stages softens sudden temperature changes. It runs for about <b>'+pct+'%</b> of the 180 seconds shown.');
     } else {
-      if(diff>=3) msg='<b>고급작동</b> — 열림 개시온도보다 <b>3℃ 이상</b> 높으므로 <b>대기시간을 무시</b>하고 연속 작동합니다. 급한 상황에서는 표준작동보다 빠르게 대응합니다.';
-      else msg='<b>고급작동</b> — 대기 중에 온도 추세를 <b>스스로 판단</b>합니다. 현재 온도차 <b>'+diff.toFixed(1)+'℃</b>에서는 대기를 더 길게 가져가 불필요한 작동을 줄입니다. 180초 중 실제 작동은 약 <b>'+pct+'%</b>입니다.';
+      if(diff>=3) msg=WSM_L('<b>고급작동</b> — 열림 개시온도보다 <b>3℃ 이상</b> 높으므로 <b>대기시간을 무시</b>하고 연속 작동합니다. 급한 상황에서는 표준작동보다 빠르게 대응합니다.',
+                '<b>Premium</b> — the temperature is <b>3℃ or more above</b> the opening start temperature, so it <b>ignores the wait time</b> and runs continuously. In urgent conditions it reacts faster than Standard.');
+      else msg=WSM_L('<b>고급작동</b> — 대기 중에 온도 추세를 <b>스스로 판단</b>합니다. 현재 온도차 <b>'+diff.toFixed(1)+'℃</b>에서는 대기를 더 길게 가져가 불필요한 작동을 줄입니다. 180초 중 실제 작동은 약 <b>'+pct+'%</b>입니다.',
+                '<b>Premium</b> — it <b>judges the temperature trend for itself</b> while waiting. At the present difference of <b>'+diff.toFixed(1)+'℃</b> it waits longer, avoiding unnecessary movement. It runs for about <b>'+pct+'%</b> of the 180 seconds shown.');
     }
     narr.innerHTML=msg;
   }
@@ -2221,6 +2246,7 @@
   });
   [diffR,runR,waitR].forEach(function(r){ r.addEventListener('input',build); });
   build();
+  window.WSM_REDRAW.push(build);
 })();
 </script>
 
@@ -2239,17 +2265,36 @@
         lineOff=sw[4].classList.contains('on');
     var hit=0, cls='v-auto', txt, sub;
 
-    if(thermo){ hit=1; cls='v-open'; txt='연속 열림 작동'; sub='서모스타트에 의한 특별작동 (제1순위) — 자동·수동 모두 적용, 내부 부저 연속 작동'; }
-    else if(alarm && auto){ hit=2; cls='v-open'; txt='연속 열림 작동'; sub='고온경보에 의한 특별작동 (제2순위) — 고온경보 표시등 적색 점멸, 1초 간격 경보음'; }
-    else if(rain && auto){ hit=3; cls='v-close'; txt='연속 닫힘 작동'; sub='빗물 감지에 의한 특별작동 (제3순위) — 빗물감지 표시 적색 점멸'; }
-    else if(sleep && auto){ hit=4; cls='v-wait'; txt='잠자기 (대기)'; sub='작동 누적 30분 경과 (제4순위) — 운전상태 표시램프 점멸, 조건이 되면 자동 해제'; }
-    else if(!auto){ hit=0; cls='v-auto'; txt='수동 스위치대로 작동'; sub='수동운전 중에는 고온경보·빗물감지·잠자기가 적용되지 않습니다'; }
-    else { hit=0; cls='v-auto'; txt='일반 자동제어'; sub='설정한 제어방식(온도 또는 시간)과 작동방식(기본/표준/고급)에 따라 작동합니다'; }
+    if(thermo){ hit=1; cls='v-open';
+      txt=WSM_L('연속 열림 작동','Continuous opening');
+      sub=WSM_L('서모스타트에 의한 특별작동 (제1순위) — 자동·수동 모두 적용, 내부 부저 연속 작동',
+                'Special operation by the thermostat (priority 1) — applies in both automatic and manual operation; the internal buzzer sounds continuously'); }
+    else if(alarm && auto){ hit=2; cls='v-open';
+      txt=WSM_L('연속 열림 작동','Continuous opening');
+      sub=WSM_L('고온경보에 의한 특별작동 (제2순위) — 고온경보 표시등 적색 점멸, 1초 간격 경보음',
+                'Special operation by the high temp alarm (priority 2) — the alarm indicator blinks red and an alarm sounds every second'); }
+    else if(rain && auto){ hit=3; cls='v-close';
+      txt=WSM_L('연속 닫힘 작동','Continuous closing');
+      sub=WSM_L('빗물 감지에 의한 특별작동 (제3순위) — 빗물감지 표시 적색 점멸',
+                'Special operation by rain detection (priority 3) — the rain detect indicator blinks red'); }
+    else if(sleep && auto){ hit=4; cls='v-wait';
+      txt=WSM_L('잠자기 (대기)','Sleep (waiting)');
+      sub=WSM_L('작동 누적 30분 경과 (제4순위) — 운전상태 표시램프 점멸, 조건이 되면 자동 해제',
+                '30 minutes of accumulated running (priority 4) — the operating state lamp blinks and sleep releases automatically when a condition arises'); }
+    else if(!auto){ hit=0; cls='v-auto';
+      txt=WSM_L('수동 스위치대로 작동','Follows the manual switch');
+      sub=WSM_L('수동운전 중에는 고온경보·빗물감지·잠자기가 적용되지 않습니다',
+                'During manual operation the high temp alarm, rain detection and sleep do not apply'); }
+    else { hit=0; cls='v-auto';
+      txt=WSM_L('일반 자동제어','Normal automatic control');
+      sub=WSM_L('설정한 제어방식(온도 또는 시간)과 작동방식(기본/표준/고급)에 따라 작동합니다',
+                'Runs according to the control mode (temperature or time) and the operation mode (Basic / Standard / Premium) you have set'); }
 
     if(lineOff){
       var other=txt;
-      cls='v-wait'; txt='해당 라인 작동 안함';
-      sub='개별라인 스위치가 정지 — 그 라인의 전동개폐기는 작동하지 않습니다. 나머지 라인은 「'+other+'」 대로 작동합니다.';
+      cls='v-wait'; txt=WSM_L('해당 라인 작동 안함','That line does not run');
+      sub=WSM_L('개별라인 스위치가 정지 — 그 라인의 전동개폐기는 작동하지 않습니다. 나머지 라인은 「'+other+'」 대로 작동합니다.',
+                'That line switch is at stop — its opener does not run. The other lines behave as “'+other+'”.');
     }
 
     vd.className='verdict '+cls;
@@ -2271,6 +2316,7 @@
     });
   });
   judge();
+  window.WSM_REDRAW.push(judge);
 })();
 </script>
 
@@ -2290,10 +2336,12 @@
       if(ok) n++;
       if(q && ok) d.open=true; else if(!q) d.open=false;
     });
-    cnt.textContent=q ? (n+'개 증상이 검색되었습니다.') : ('전체 '+list.length+'개 증상 · 검색어를 입력하면 좁혀집니다.');
+    cnt.textContent=q ? WSM_L(n+'개 증상이 검색되었습니다.', n+' symptom(s) found.')
+                      : WSM_L('전체 '+list.length+'개 증상 · 검색어를 입력하면 좁혀집니다.',
+                              'All '+list.length+' symptoms · type to narrow the list.');
   }
   inp.addEventListener('input',run);
-  run();
+  run(); window.WSM_REDRAW.push(run);
 })();
 </script>
 
@@ -2403,6 +2451,8 @@
     document.querySelectorAll('img[data-i18n-img]').forEach(function(im){
       im.src='img/'+im.dataset.i18nImg+'_'+lang+'.webp';
     });
+    /* JS가 써넣은 문구는 사전으로 못 바꾸므로 위젯을 다시 그린다 */
+    (window.WSM_REDRAW||[]).forEach(function(f){ try{f();}catch(_){} });
     document.documentElement.setAttribute('data-lang',lang);
     document.querySelectorAll('#langbar button').forEach(function(b){b.classList.toggle('on',b.dataset.lang===lang);});
   }
