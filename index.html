@@ -379,6 +379,8 @@
   html[data-theme="dark"] #gate .gtitle{color:#eee}
   html[data-theme="dark"] #notice .ntext{color:#ddd}
   html[data-theme="dark"] #gate input{background:#0f0f11;color:#eee;border-color:#2c2c2e}
+  /* 검토용 초안 배너 — 2026-07-31 확정본에서 마크업만 뺐다.
+     다시 초안으로 돌릴 땐 #sidebar 아래에 <div class="draftbar">…</div> 한 줄만 넣으면 된다 */
   .draftbar{position:sticky;top:0;z-index:35;background:#b45309;color:#fff;text-align:center;
     padding:9px 14px;font-size:13.5px;font-weight:700;line-height:1.5}
   .draftbar b{color:#ffe9c7}
@@ -447,7 +449,6 @@ window.WSM_REDRAW=[];
 })();
 </script>
 <aside id="sidebar" class="sidebar"></aside>
-<div class="draftbar" data-notrans>Review draft — do not print or distribute. · 검토용 초안 — 인쇄·배포하지 마십시오.</div>
 <div class="wrap">
 
   <div class="appbar">
