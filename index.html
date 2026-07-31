@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="ko" data-lang="ko">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>TTC-1006 컨트롤러 사용설명서 (수출용) | 우성하이텍 롤업마스터</title>
-<meta name="description" content="DC24V 전동개폐기용 컨트롤러 TTC-1006 수출용 사용설명서 · 우성하이텍(WSH) 롤업마스터">
+<title>TTC-1006 Controller User Manual (Export) | Woosung Hitec Roll Up Master</title>
+<meta name="description" content="User manual for the TTC-1006 DC24V motorized vent controller (export) · Woosung Hitec (WSH) Roll Up Master">
 <meta name="theme-color" content="#c8102e">
 <meta name="color-scheme" content="light dark">
 <style>
@@ -386,6 +386,7 @@
 <script>
 /* JS가 실행 중에 써넣는 문구는 사전이 닿지 않는다(위젯·판정문·검색 안내).
    WSM_L(ko,en) 으로 골라 쓰고, 언어가 바뀌면 WSM_REDRAW 에 등록된 함수를 다시 부른다. */
+window.WSM_LANG='en';   /* 영문판 — 기본 언어. 언어 버튼으로 한국어·일본어 전환 가능 */
 window.WSM_L=function(ko,en){ return (window.WSM_LANG&&window.WSM_LANG!=='ko')?en:ko; };
 window.WSM_REDRAW=[];
 </script>
@@ -397,12 +398,12 @@ window.WSM_REDRAW=[];
 <!-- ===== 비밀번호 게이트 ===== -->
 <div id="gate" data-notrans>
   <div class="gbox">
-    <div class="glogo">◤ 롤업마스터 · TTC-1006 수출용</div>
-    <div class="gtitle">컨트롤러 사용설명서</div>
-    <div class="gdesc">열람하려면 비밀번호를 입력하세요.
-      <span>Enter password to view · パスワードを入力</span></div>
-    <input id="gpw" type="password" inputmode="numeric" maxlength="8" placeholder="비밀번호" autocomplete="off" aria-label="비밀번호">
-    <button id="gbtn" type="button">확인</button>
+    <div class="glogo">◤ ROLL UP MASTER · TTC-1006 Export</div>
+    <div class="gtitle">Controller User Manual</div>
+    <div class="gdesc">Enter the password to view.
+      <span>열람하려면 비밀번호를 입력하세요</span></div>
+    <input id="gpw" type="password" inputmode="numeric" maxlength="8" placeholder="Password" autocomplete="off" aria-label="Password">
+    <button id="gbtn" type="button">Enter</button>
     <div id="gerr" class="gerr"></div>
   </div>
 </div>
@@ -410,12 +411,12 @@ window.WSM_REDRAW=[];
 <div id="notice" data-notrans>
   <div class="nbox">
     <div class="nic">⚠️</div>
-    <div class="ntitle">배포 금지 안내</div>
-    <div class="ntext">본 자료는 <b>(주)우성하이텍</b>의 자산입니다.<br>
-      무단 <b>복제·배포·전송·게시</b>를 금지하며, 허가 없이 외부로 공유할 수 없습니다.<br>
-      승인된 사용자 열람용으로만 제공됩니다.
-      <span class="nsub">This manual is proprietary to Woosung Hitec (WSH).<br>Unauthorized copying, distribution or posting is prohibited.<br>本資料の無断配布・複製を禁止します。</span></div>
-    <button id="nbtn" type="button">확인했습니다</button>
+    <div class="ntitle">Confidential — Do Not Distribute</div>
+    <div class="ntext">This manual is the property of <b>Woosung Hitec Co., Ltd. (WSH)</b>.<br>
+      Unauthorized <b>copying, distribution, transmission or posting</b> is prohibited, and it may not be shared outside the company without permission.<br>
+      Provided for viewing by authorized users only.
+      <span class="nsub">본 자료의 무단 복제·배포·전송·게시를 금지합니다.</span></div>
+    <button id="nbtn" type="button">I understand</button>
   </div>
 </div>
 <script>
@@ -446,7 +447,7 @@ window.WSM_REDRAW=[];
 })();
 </script>
 <aside id="sidebar" class="sidebar"></aside>
-<div class="draftbar" data-notrans>검토용 초안 — 영문 번역이 진행 중입니다. 인쇄·배포하지 마십시오.</div>
+<div class="draftbar" data-notrans>Review draft — do not print or distribute. · 검토용 초안 — 인쇄·배포하지 마십시오.</div>
 <div class="wrap">
 
   <div class="appbar">
@@ -466,7 +467,6 @@ window.WSM_REDRAW=[];
     </div>
     <div class="langbar" id="langbar" data-notrans>
       <button data-lang="ko" class="on">한국어</button>
-      <button data-lang="ja">日本語</button>
       <button data-lang="en">English</button>
     </div>
     <div class="toc" id="toc"></div>
@@ -2033,7 +2033,13 @@ window.WSM_REDRAW=[];
 
   var sidebar=document.getElementById('sidebar');
   if(sidebar){
-    sidebar.innerHTML='<div class="sbrand">◤ 롤업마스터™ TTC-1006<small>DC24V 전동개폐기 컨트롤러 · 수출용</small></div>';
+    function drawBrand(){
+      sidebar.querySelector('.sbrand').innerHTML=
+        WSM_L('◤ 롤업마스터™ TTC-1006','◤ ROLL UP MASTER™ TTC-1006')
+        +'<small>'+WSM_L('DC24V 전동개폐기 컨트롤러 · 수출용','DC24V Motorized Vent Controller · Export')+'</small>';
+    }
+    sidebar.innerHTML='<div class="sbrand" data-notrans></div>';
+    drawBrand(); window.WSM_REDRAW.push(drawBrand);
     var ha=document.createElement('a'); ha.href='#home'; ha.dataset.id='home';
     ha.innerHTML='<span class="si sh"></span>목차 홈'; sidebar.appendChild(ha);
     PAGES.forEach(function(p,idx){
@@ -2049,7 +2055,7 @@ window.WSM_REDRAW=[];
     home.classList.remove('active');
     PAGES.forEach(function(p){var s=document.getElementById(p.id);if(s)s.classList.remove('active');});
     if(!found){
-      home.classList.add('active'); abTitle.textContent='◤ 롤업마스터 · TTC-1006'; abPage.textContent='';
+      home.classList.add('active'); abTitle.textContent=WSM_L('◤ 롤업마스터 · TTC-1006','◤ ROLL UP MASTER · TTC-1006'); abPage.textContent='';
       homeBtn.style.visibility='hidden';
     } else {
       var sec=document.getElementById(id);
@@ -2349,8 +2355,7 @@ window.WSM_REDRAW=[];
 /* 그림 눌러서 확대 */
 (function(){
   var HINT={ko:'그림을 누르면 원래 크기 · 배경을 누르면 닫힘',
-            en:'Tap the image for full size · tap outside to close',
-            ja:'画像をタップで原寸 · 外側をタップで閉じる'};
+            en:'Tap the image for full size · tap outside to close'};
   var box=document.createElement('div');
   box.className='lbox'; box.setAttribute('data-notrans','');   /* 번역 대상 아님 */
   box.innerHTML='<button class="x" type="button" aria-label="close">✕</button>'+
@@ -2385,7 +2390,6 @@ window.WSM_REDRAW=[];
   var TR   = window.WSM_TR   || {};   /* 용어 사전 — 부분일치 치환 */
   var SENT = window.WSM_SENT || {};   /* 문장 사전 — 블록 전체 일치 */
   var MSG={
-    ja:{d:"このページはAI（人工知能）による翻訳です。誤訳が含まれる場合がございますが、あらかじめご了承のうえご覧いただけますと幸いです。",ok:"確認しました"},
     en:{d:"This page has been translated by AI. Some parts may be mistranslated, so we kindly ask for your understanding. Thank you.",ok:"OK"}
   };
   /* 번역 단위 = 하위에 블록요소가 없는 "최소 블록" */
@@ -2485,6 +2489,11 @@ window.WSM_REDRAW=[];
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initModal);
   else initModal();
   function showModal(lang){ if(!modal||!ok||!MSG[lang])return; msg.textContent=MSG[lang].d; ok.textContent=MSG[lang].ok; modal.classList.add('show'); }
+
+  /* 영문판 — 첫 화면부터 영어로. 한국어·일본어는 언어 버튼으로 언제든 전환된다.
+     applyLang 은 원문(한글)을 origin 에 보관하므로 되돌리기가 무손실이다.
+     여기서 부르는 이유: 네비게이션(사이드바·페이저)이 이미 만들어진 뒤라야 함께 수집된다 */
+  applyLang('en'); if(window.TTC_NAV) window.TTC_NAV();
   try{localStorage.removeItem('wsm-lang');}catch(_){}
 })();
 </script>
