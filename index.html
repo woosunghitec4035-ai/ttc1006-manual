@@ -303,10 +303,20 @@
   .modal .box .ic{font-size:34px}
   .modal .box p{font-size:15px;line-height:1.7;margin:12px 0 18px;color:var(--sub)}
   .modal .box button{background:var(--red);color:#fff;border:0;padding:12px 28px;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer}
-  .modal .pchoice{display:flex;flex-direction:column;gap:9px}
-  .modal .pchoice button{width:100%;padding:13px 16px}
-  .modal .pchoice button small{display:block;font-weight:600;font-size:12.5px;opacity:.85;margin-top:2px}
-  .modal .pchoice button.ghost{background:transparent;color:var(--sub);border:1px solid var(--line)}
+  /* 인쇄할 장 고르기 */
+  .modal .pbox{max-width:430px;width:100%;text-align:left}
+  .modal .pbox .ic,.modal .pbox p{text-align:center}
+  .modal .pbox p{margin:10px 0 12px}
+  .prow{display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:14.5px;line-height:1.35;cursor:pointer}
+  .prow input{width:17px;height:17px;accent-color:var(--red);flex:0 0 auto;margin:0}
+  .prow .n{color:var(--red);font-weight:800;min-width:20px;flex:0 0 auto}
+  .plist{max-height:44vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+  .plist .prow+.prow{border-top:1px solid var(--line)}
+  .pall{font-weight:800;padding:2px 12px 9px}
+  .pbtns{display:flex;gap:9px;margin-top:14px}
+  .pbtns button{flex:1;padding:12px 10px}
+  .pbtns button.ghost{background:transparent;color:var(--sub);border:1px solid var(--line)}
+  .pbtns button:disabled{opacity:.45;cursor:default}
 
   /* 다크 테마 */
   html[data-theme="dark"]{--ink:#eaeaea;--sub:#a8a8a8;--line:#2c2c2e;--bg:#0f0f11;--card:#1a1a1d;color-scheme:dark}
@@ -389,8 +399,7 @@
   .draftbar b{color:#ffe9c7}
   /* ── 인쇄 ──────────────────────────────────────────────────────
      화면 전용 요소를 걷어내고, 조작 위젯은 숨기되 도해·설명글은 남긴다.
-     .page.active 만 보이는 구조라 '보는 장만 인쇄'는 저절로 된다.
-     전체 인쇄는 body.print-all 로 모든 장을 펼친다. */
+     화면에선 .page.active 하나만 보이지만, 인쇄는 팝업에서 고른 장(.print-on)만 편다. */
   @page{size:A4;margin:14mm 12mm}
   @media print{
     :root,html[data-theme="dark"]{--ink:#000;--sub:#333;--line:#bbb;--bg:#fff;--card:#fff;--shadow:none}
@@ -414,9 +423,11 @@
     .cover{background:#fff!important;color:var(--red)!important;border:2px solid var(--red)}
     .cover .model{background:#fff!important;border:1px solid var(--red)}
     .cover .coverimg{background:#fff!important}
-    body.print-all .page{display:block!important;animation:none}
-    body.print-all section{break-before:page;page-break-before:always}
-    body.print-all #home{break-after:page;page-break-after:always}
+    /* 고른 장만 편다. .page 는 화면에서 .active 하나만 보이므로 인쇄에선 이 규칙이 이긴다 */
+    body.print-sel .page{display:none!important}
+    body.print-sel .page.print-on{display:block!important;animation:none}
+    body.print-sel .page.print-on{break-before:page;page-break-before:always}
+    body.print-sel .page.print-first{break-before:auto;page-break-before:auto}
   }
 </style>
 <script>
@@ -2496,11 +2507,12 @@ window.WSM_REDRAW=[];
 </div>
 
 <div class="modal" id="printModal" data-notrans>
-  <div class="box"><div class="ic">🖨</div><p id="printMsg"></p>
-    <div class="pchoice">
-      <button id="printOne"></button>
-      <button id="printAll"></button>
+  <div class="box pbox"><div class="ic">🖨</div><p id="printMsg"></p>
+    <label class="prow pall"><input type="checkbox" id="pAll"><span id="pAllT"></span></label>
+    <div class="plist" id="pList"></div>
+    <div class="pbtns">
       <button id="printCancel" class="ghost"></button>
+      <button id="printGo"></button>
     </div>
   </div>
 </div>
@@ -2514,20 +2526,62 @@ window.WSM_REDRAW=[];
      · lazy 이미지 70장 — 화면 아래쪽 그림은 아직 로드 전이라 빈칸으로 인쇄된다
      · 접힌 <details> 21개 — 접힌 채로 인쇄되면 그 안의 내용이 통째로 빠진다
      · ⅩⅡ 증상 검색어 — 걸러진 목록만 인쇄된다
-   그래서 인쇄 직전에 전부 펼치고, 끝나면 화면을 원래대로 되돌린다. */
+   인쇄 직전에 전부 펼치고, 끝나면 화면을 원래대로 되돌린다.
+
+   범위는 팝업 하나로 고른다. 본문에서 열면 '그 장만', 목차에서 열면 '전부' 체크된
+   상태로 뜨므로 그냥 인쇄를 누르면 예전 동작 그대로다. */
 (function(){
   var btn=document.getElementById('printBtn'), modal=document.getElementById('printModal');
   if(!btn||!modal) return;
   var msg=document.getElementById('printMsg'),
-      bOne=document.getElementById('printOne'),
-      bAll=document.getElementById('printAll'),
-      bCancel=document.getElementById('printCancel');
+      pAll=document.getElementById('pAll'), pAllT=document.getElementById('pAllT'),
+      pList=document.getElementById('pList'),
+      bGo=document.getElementById('printGo'), bCancel=document.getElementById('printCancel');
 
   function label(){
     var t=WSM_L('인쇄','Print');
     btn.setAttribute('aria-label',t); btn.title=t;
   }
   label(); window.WSM_REDRAW.push(label);
+
+  /* 장 목록은 사이드바에서 읽는다 — 이미 현재 언어로 번역돼 있고 순서도 맞다 */
+  function chapters(){
+    var out=[{id:'home', n:'', t:WSM_L('표지 · 목차','Cover · Contents')}];
+    [].forEach.call(document.querySelectorAll('#sidebar a[data-id]'),function(a){
+      if(a.dataset.id==='home') return;
+      var si=a.querySelector('.si'), n=si?si.textContent:'';
+      out.push({id:a.dataset.id, n:n, t:a.textContent.slice(n.length)});
+    });
+    return out;
+  }
+
+  function boxes(){ return [].slice.call(pList.querySelectorAll('input')); }
+  function chosen(){ return boxes().filter(function(b){return b.checked;}).map(function(b){return b.value;}); }
+
+  function sync(){
+    var all=boxes(), on=all.filter(function(b){return b.checked;});
+    pAll.checked = on.length===all.length && all.length>0;
+    pAll.indeterminate = on.length>0 && on.length<all.length;
+    var ch=on.filter(function(b){return b.value!=='home';}).length;
+    bGo.textContent = ch ? WSM_L('인쇄 ('+ch+'장)','Print ('+ch+')') : WSM_L('인쇄','Print');
+    bGo.disabled = on.length===0;
+  }
+
+  function build(pre){
+    pAllT.textContent=WSM_L('전체 선택','Select all');
+    pList.innerHTML='';
+    chapters().forEach(function(c){
+      var row=document.createElement('label'); row.className='prow';
+      var cb=document.createElement('input'); cb.type='checkbox'; cb.value=c.id;
+      cb.checked = pre==='all' || pre===c.id;
+      cb.addEventListener('change',sync);
+      row.appendChild(cb);
+      if(c.n){ var n=document.createElement('span'); n.className='n'; n.textContent=c.n; row.appendChild(n); }
+      var t=document.createElement('span'); t.textContent=c.t; row.appendChild(t);
+      pList.appendChild(row);
+    });
+    sync();
+  }
 
   /* ── 되돌리기용 기록 ── */
   var opened=[], oldQuery=null;
@@ -2544,7 +2598,10 @@ window.WSM_REDRAW=[];
     });
   }
   function restore(){
-    document.body.classList.remove('print-all');
+    document.body.classList.remove('print-sel');
+    [].forEach.call(document.querySelectorAll('.print-on,.print-first'),function(el){
+      el.classList.remove('print-on','print-first');
+    });
     opened.forEach(function(dt){ dt.open=false; });
     opened=[];
     if(oldQuery!==null){
@@ -2554,8 +2611,9 @@ window.WSM_REDRAW=[];
     }
   }
 
-  function loadImages(scope){
-    var imgs=[].slice.call(scope.querySelectorAll('img'));
+  function loadImages(roots){
+    var imgs=[];
+    roots.forEach(function(r){ imgs=imgs.concat([].slice.call(r.querySelectorAll('img'))); });
     imgs.forEach(function(im){
       im.setAttribute('loading','eager');   /* im.loading= 은 속성에 반영 안 되는 환경이 있다 */
       /* display:none 안의 lazy 이미지는 eager 로 바꿔도 안 받아올 수 있어 src 를 한 번 건드린다 */
@@ -2573,35 +2631,37 @@ window.WSM_REDRAW=[];
 
   function close(){ modal.classList.remove('show'); document.body.classList.remove('locked'); }
 
-  function go(all){
-    msg.textContent=WSM_L('그림을 불러오는 중입니다…','Loading images…');
-    bOne.disabled=bAll.disabled=bCancel.disabled=true;
-    if(all) document.body.classList.add('print-all');
+  bGo.addEventListener('click',function(){
+    var ids=chosen(); if(!ids.length) return;
+    var roots=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+    roots.forEach(function(el){ el.classList.add('print-on'); });
+    roots[0].classList.add('print-first');          /* 첫 장 앞에는 빈 쪽을 넣지 않는다 */
+    document.body.classList.add('print-sel');
     expandAll();
-    var scope=all?document:(document.querySelector('.page.active')||document);
-    loadImages(scope).then(function(){
-      close();
-      bOne.disabled=bAll.disabled=bCancel.disabled=false;
+    msg.textContent=WSM_L('그림을 불러오는 중입니다…','Loading images…');
+    bGo.disabled=bCancel.disabled=true;
+    loadImages(roots).then(function(){
+      close(); bCancel.disabled=false;
       window.print();          /* 대화상자가 닫힐 때까지 여기서 멈춘다 */
       restore();
     });
-  }
+  });
 
   btn.addEventListener('click',function(){
     var home=document.getElementById('home');
     var onHome=!!(home && home.classList.contains('active'));
-    var here=(document.getElementById('abTitle')||{}).textContent||'';
-    msg.textContent=WSM_L('무엇을 인쇄할까요?','What would you like to print?');
-    bOne.style.display=onHome?'none':'';        /* 목차 홈에서는 "이 장만"이 의미 없다 */
-    bOne.innerHTML=WSM_L('이 장만','This chapter')+'<small>'+here+'</small>';
-    bAll.innerHTML=WSM_L('전체','Everything')+'<small>'+
-      WSM_L('표지 · 목차 · 12개 장','Cover · contents · 12 chapters')+'</small>';
+    var active=document.querySelector('.page.active');
+    msg.textContent=WSM_L('인쇄할 장을 고르세요.','Choose the chapters to print.');
+    build(onHome ? 'all' : (active?active.id:'all'));
     bCancel.textContent=WSM_L('취소','Cancel');
     modal.classList.add('show'); document.body.classList.add('locked');
   });
 
-  bOne.addEventListener('click',function(){ go(false); });
-  bAll.addEventListener('click',function(){ go(true); });
+  pAll.addEventListener('change',function(){
+    var on=pAll.checked;
+    boxes().forEach(function(b){ b.checked=on; });
+    sync();
+  });
   bCancel.addEventListener('click',close);
   modal.addEventListener('click',function(e){ if(e.target===modal) close(); });
   window.addEventListener('afterprint',restore);   /* print() 직후 복구가 안 되는 브라우저 대비 */
